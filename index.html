@@ -24,33 +24,27 @@
   </div>
 </div>
 
-<!-- Menú Principal con la imagen original exacta sin modificar -->
-<div id="start-screen" class="overlay">
-  <div class="modern-panel main-menu-panel">
-    <div class="cover-frame">
-      <img class="cover-img-exact" src="img/cover.jpg" alt="Gsosito Survivor">
-    </div>
+	<!-- Menú Principal con la imagen ocupando toda la pantalla -->
+	<div id="start-screen" class="overlay" style="
+  background-image: url('img/cover.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 40px;
+">
+		<div style="max-width: 450px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 20px;">
+			<div class="title-badge" style="display:inline-block; margin-bottom:8px;">Hi-Res Pixel Art Edition</div>
+			<h1 class="game-title" style="font-size: 32px; line-height: 1.1; margin-bottom: 10px;">
+				GSOSITO<br>SURVIVOR</h1>
+			<p class="subtitle" style="font-size: 13px; margin-bottom: 15px;">Sobrevive a la caída de la ciudad con tu visor óptico y tu dron de guardia.</p>
+		</div>
 
-    <div class="menu-right-col">
-      <div class="title-badge">Hi-Res Pixel Art Edition</div>
-      <h1 class="game-title">GSOSITO<br>SURVIVOR</h1>
-      <p class="subtitle">Sobrevive a la caída de la ciudad con tu visor óptico y tu dron de guardia.</p>
-
-      <div class="enemy-legend">
-        <span class="legend-tag">🐱 Gatos Callejeros</span>
-        <span class="legend-tag">🦹 Ladrones</span>
-        <span class="legend-tag">📦 Logística</span>
-      </div>
-
-      <div class="controls-hint">
-        <strong>Móvil:</strong> Joystick táctil en pantalla<br>
-        <strong>PC:</strong> WASD / Flechas • Láser automático
-      </div>
-
-      <button id="start-btn" class="action-btn">▶ Jugar Patrulla</button>
-    </div>
-  </div>
-</div>
+		<!-- Botón de inicio en el lado inferior izquierdo -->
+		<button id="start-btn" class="action-btn" style="position: relative; z-index: 10;">▶ Jugar Patrulla</button>
+	</div>
 
 <!-- Pantalla de Subida de Nivel -->
 <div id="levelup-screen" class="overlay hidden">
