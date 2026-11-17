@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="screen-orientation" content="landscape">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<title>Gsosito Survivor — Hi-Res Pixel Art</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="gameCanvas"></canvas>
+
+<!-- Pantalla obligatoria para girar el móvil -->
+<div id="rotate-screen">
+  <div class="phone-rotate-icon"></div>
+  <div class="rotate-title">Gira tu dispositivo</div>
+  <div class="rotate-desc">
+    Gsosito Survivor se juega en formato horizontal.<br>
+    Coloca el móvil en apaisado para empezar la patrulla.
+  </div>
+</div>
+
+<!-- Menú Principal con la imagen original exacta sin modificar -->
+<div id="start-screen" class="overlay">
+  <div class="modern-panel main-menu-panel">
+    <div class="cover-frame">
+      <img class="cover-img-exact" src="img/cover.jpg" alt="Gsosito Survivor">
+    </div>
+
+    <div class="menu-right-col">
+      <div class="title-badge">Hi-Res Pixel Art Edition</div>
+      <h1 class="game-title">GSOSITO<br>SURVIVOR</h1>
+      <p class="subtitle">Sobrevive a la caída de la ciudad con tu visor óptico y tu dron de guardia.</p>
+
+      <div class="enemy-legend">
+        <span class="legend-tag">🐱 Gatos Callejeros</span>
+        <span class="legend-tag">🦹 Ladrones</span>
+        <span class="legend-tag">📦 Logística</span>
+      </div>
+
+      <div class="controls-hint">
+        <strong>Móvil:</strong> Joystick táctil en pantalla<br>
+        <strong>PC:</strong> WASD / Flechas • Láser automático
+      </div>
+
+      <button id="start-btn" class="action-btn">▶ Jugar Patrulla</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pantalla de Subida de Nivel -->
+<div id="levelup-screen" class="overlay hidden">
+  <div class="modern-panel" style="padding: 16px 20px; width: 100%; max-width: 740px;">
+    <h2 style="font-size: 18px; color: #facc15; margin-bottom: 4px;">¡Mejora de Equipo!</h2>
+    <p style="font-size: 12px; color: #cbd5e1;">Elige un suministro táctico del yermo</p>
+    <div id="cards-container" class="upgrade-cards"></div>
+  </div>
+</div>
+
+<!-- Pantalla de Fin de Partida con botón volver al menú -->
+<div id="gameover-screen" class="overlay hidden">
+  <div class="modern-panel" style="padding: 18px 22px; max-width: 620px; width: 100%;">
+    <h2 style="font-size: 22px; color: #ef4444; margin-bottom: 4px;">Turno Caído</h2>
+    <p style="font-size: 12.5px; color: #cbd5e1;">La horda del yermo ha superado el perímetro.</p>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-label">TIEMPO</div>
+        <div id="final-time" class="stat-val">00:00</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">NIVEL</div>
+        <div id="final-level" class="stat-val">1</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">BAJAS</div>
+        <div id="final-kills" class="stat-val">0</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">PUNTOS</div>
+        <div id="final-score" class="stat-val">0</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button id="restart-btn" class="action-btn">↺ Reintentar</button>
+      <button id="menu-btn" class="secondary-btn">⌂ Menú Principal</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/game.js"></script>
+</body>
+</html>

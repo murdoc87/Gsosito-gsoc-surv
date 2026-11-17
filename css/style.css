@@ -1,0 +1,378 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0b0d12;
+    font-family: 'Chakra Petch', system-ui, -apple-system, sans-serif;
+    color: #f8fafc;
+  }
+
+  #gameCanvas {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  /* Aviso de rotación obligatorio en vertical */
+  #rotate-screen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: radial-gradient(circle at center, #181c26 0%, #090b0f 100%);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+  }
+
+  .phone-rotate-icon {
+    width: 48px;
+    height: 82px;
+    border: 3px solid #facc15;
+    border-radius: 10px;
+    background: #1e293b;
+    position: relative;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px rgba(250, 204, 21, 0.25);
+    animation: rotatePhoneAnim 2s infinite ease-in-out;
+  }
+
+  .phone-rotate-icon::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 3px;
+    border-radius: 2px;
+    background: #94a3b8;
+  }
+
+  .phone-rotate-icon::after {
+    content: '';
+    position: absolute;
+    bottom: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ef4444;
+  }
+
+  @keyframes rotatePhoneAnim {
+    0%, 20% { transform: rotate(0deg); }
+    50%, 80% { transform: rotate(-90deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .rotate-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #facc15;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .rotate-desc {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.5;
+    max-width: 300px;
+  }
+
+  .modern-panel {
+    background: rgba(15, 19, 26, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(8, 10, 15, 0.65);
+    z-index: 20;
+    padding: 12px 18px;
+    text-align: center;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Menú Principal con la imagen original intacta */
+  .main-menu-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 720px;
+    padding: 14px 18px;
+    text-align: left;
+  }
+
+  .cover-frame {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(195px, 34vw, 275px);
+    height: clamp(195px, 34vw, 275px);
+    border-radius: 12px;
+    border: 2px solid rgba(250, 204, 21, 0.75);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+    background: #111622;
+  }
+
+  .cover-img-exact {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    image-rendering: auto;
+  }
+
+  .menu-right-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .title-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, #dc2626, #ea580c);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    margin-bottom: 6px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  h1.game-title {
+    font-size: clamp(22px, 3.6vw, 32px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: #facc15;
+    text-shadow: 0 3px 12px rgba(250, 204, 21, 0.35);
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: clamp(11px, 1.5vw, 13px);
+    color: #cbd5e1;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .enemy-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #f1f5f9;
+  }
+
+  .legend-tag {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 6px;
+    padding: 4px 8px;
+  }
+
+  .controls-hint {
+    width: 100%;
+    font-size: 11px;
+    color: #94a3b8;
+    background: rgba(10, 14, 20, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 7px 10px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .action-btn {
+    background: linear-gradient(180deg, #facc15 0%, #eab308 100%);
+    color: #0f172a;
+    border: none;
+    border-radius: 9px;
+    box-shadow: 0 4px 0 #a16207, 0 8px 20px rgba(234, 179, 8, 0.35);
+    padding: 11px 22px;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: clamp(13px, 1.8vw, 15px);
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: transform 0.08s ease;
+  }
+
+  .action-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #a16207;
+  }
+
+  .secondary-btn {
+    background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9px;
+    box-shadow: 0 4px 0 #0f172a;
+    padding: 11px 20px;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: clamp(13px, 1.8vw, 15px);
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: transform 0.08s ease;
+  }
+
+  .secondary-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #0f172a;
+  }
+
+  /* Cartas de subida de nivel */
+  .upgrade-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+    max-width: 720px;
+    margin-top: 12px;
+    justify-content: center;
+  }
+
+  .card {
+    flex: 1;
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+    border: 1.5px solid rgba(148, 163, 184, 0.35);
+    border-radius: 11px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    padding: 12px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-width: 0;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+
+  .card:hover, .card:active {
+    border-color: #facc15;
+    transform: translateY(-2px);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(250, 204, 21, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #facc15;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 11.5px;
+    color: #cbd5e1;
+    line-height: 1.35;
+  }
+
+  /* Estadísticas Game Over */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 580px;
+    margin: 12px auto 16px;
+  }
+
+  .stat-item {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 9px;
+    padding: 8px 6px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-val {
+    font-size: 16px;
+    font-weight: 700;
+    color: #facc15;
+  }
