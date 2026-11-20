@@ -623,6 +623,7 @@ class SurvivorScene extends Phaser.Scene {
   constructor() {
     super({ key: 'SurvivorScene' });
     this._uiBound = false;
+    this._lastThermalDims = null;
   }
 
   preload() {
@@ -723,6 +724,14 @@ class SurvivorScene extends Phaser.Scene {
     this.createHUD();
     this.bindUIEvents();
     this.updatePauseButtonVisibility();
+
+    this.scale.on('resize', () => {
+      if (this.gameState === 'LEVELUP' && this._lastThermalDims) {
+        const { finalW, finalH, finalY } = this._lastThermalDims;
+        this.syncThermalBoxToTicketGraphic(finalW, finalH, finalY);
+      }
+      this.updateHUD();
+    });
   }
 
   isInActiveRun() {
@@ -943,10 +952,10 @@ class SurvivorScene extends Phaser.Scene {
 
     this.hordeBannerText = this.add.text(this.scale.width / 2, 92, '⚠️ SE ACERCA UNA HORDA DE ENEMIGOS ⚠️', {
       ...hudInfoStyle,
-      fontSize: '15px',
+      fontSize: '14px',
       color: '#ef4444',
       backgroundColor: 'rgba(9, 13, 20, 0.78)',
-      padding: { x: 12, y: 6 }
+      padding: { x: 10, y: 5 }
     }).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(9002).setVisible(false);
 
     this.bossHudGraphics = this.add.graphics().setScrollFactor(0).setDepth(9000);
@@ -974,7 +983,7 @@ class SurvivorScene extends Phaser.Scene {
     if (this.hordeBannerText) {
       this.tweens.killTweensOf(this.hordeBannerText);
       this.hordeBannerText
-        .setPosition(this.scale.width / 2, 92)
+        .setPosition(this.scale.width / 2, 86)
         .setAlpha(1)
         .setVisible(true);
 
@@ -1182,7 +1191,7 @@ class SurvivorScene extends Phaser.Scene {
     if (!container) {
       container = document.createElement('div');
       container.id = 'inrun-options-actions';
-      container.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-top:12px;';
+      container.style.cssText = 'display:flex;flex-direction:column;gap:8px;margin-top:10px;';
 
       const restartRunBtn = document.createElement('button');
       restartRunBtn.type = 'button';
@@ -1498,18 +1507,18 @@ class SurvivorScene extends Phaser.Scene {
       const canAfford = !isMax && meta.chapas >= cost;
 
       const row = document.createElement('div');
-      row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:12px;background:rgba(15,23,42,0.85);border:1px solid #334155;border-radius:6px;padding:10px 12px;';
+      row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(15,23,42,0.85);border:1px solid #334155;border-radius:6px;padding:8px 10px;';
 
       const info = document.createElement('div');
       info.style.textAlign = 'left';
       info.innerHTML = `
-        <div style="font-weight:bold;color:#f8fafc;font-size:13px;">${upg.name} <span style="color:#facc15;font-size:11px;">(Nv.${currentLvl}/${upg.maxLevel})</span></div>
-        <div style="color:#cbd5e1;font-size:11.5px;">${upg.desc}</div>
+        <div style="font-weight:bold;color:#f8fafc;font-size:12.5px;">${upg.name} <span style="color:#facc15;font-size:10.5px;">(Nv.${currentLvl}/${upg.maxLevel})</span></div>
+        <div style="color:#cbd5e1;font-size:11px;">${upg.desc}</div>
       `;
 
       const btn = document.createElement('button');
       btn.className = 'action-btn';
-      btn.style.cssText = 'pointer-events:auto;white-space:nowrap;padding:8px 12px;font-size:12px;';
+      btn.style.cssText = 'pointer-events:auto;white-space:nowrap;padding:7px 11px;font-size:11.5px;';
       if (isMax) {
         btn.textContent = 'MÁXIMO';
         btn.disabled = true;
@@ -1868,16 +1877,19 @@ class SurvivorScene extends Phaser.Scene {
     const panel = document.querySelector('#levelup-screen .thermal-panel');
     if (!panel) return;
 
+    this._lastThermalDims = { finalW, finalH, finalY };
+
     const canvasRect = this.sys.game.canvas.getBoundingClientRect();
     const viewW = this.scale.width || 854;
     const viewH = this.scale.height || 480;
     const scaleX = canvasRect.width / viewW;
     const scaleY = canvasRect.height / viewH;
 
-    const graphicTopPx = canvasRect.top + (finalY - finalH * 0.16) * scaleY;
-    const graphicBottomPx = canvasRect.bottom - Math.max(8, (viewH - (finalY + finalH * 0.46)) * scaleY);
+    const graphicTopPx = canvasRect.top + (finalY - finalH * 0.44) * scaleY;
+    const graphicBottomPx = canvasRect.bottom - Math.max(4, (viewH - (finalY + finalH * 0.46)) * scaleY);
+    const availableHeightPx = Math.max(180, graphicBottomPx - graphicTopPx);
     const availableCenterYPx = (graphicTopPx + graphicBottomPx) / 2;
-    const availableWidthPx = Math.min(540, finalW * 0.78 * scaleX);
+    const availableWidthPx = Math.min(540, Math.max(260, finalW * 0.86 * scaleX));
 
     panel.style.position = 'fixed';
     panel.style.left = `${Math.round(canvasRect.left + (this.scale.width / 2) * scaleX)}px`;
@@ -1885,14 +1897,15 @@ class SurvivorScene extends Phaser.Scene {
     panel.style.transform = 'translate(-50%, -50%)';
     panel.style.marginTop = '0px';
     panel.style.width = `${Math.round(availableWidthPx)}px`;
-    panel.style.maxWidth = '92vw';
+    panel.style.maxWidth = '94vw';
+    panel.style.maxHeight = `${Math.round(availableHeightPx)}px`;
   }
 
   createThermalPaperGraphic(centerX, targetY, width, height) {
     this.hideThermalPaperGraphic();
 
-    const topMargin = 78;
-    const maxAllowedH = this.scale.height - topMargin;
+    const topMargin = this.scale.height < 420 ? 54 : 74;
+    const maxAllowedH = Math.max(180, this.scale.height - topMargin);
     let finalW = width;
     let finalH = maxAllowedH;
 
@@ -1902,13 +1915,13 @@ class SurvivorScene extends Phaser.Scene {
       const aspect = (srcImg && srcImg.width && srcImg.height) ? (srcImg.width / srcImg.height) : (1533 / 1762);
       finalH = maxAllowedH;
       finalW = Math.round(finalH * aspect);
-      if (finalW > this.scale.width * 0.88) {
-        finalW = Math.round(this.scale.width * 0.88);
+      if (finalW > this.scale.width * 0.92) {
+        finalW = Math.round(this.scale.width * 0.92);
         finalH = Math.round(finalW / aspect);
       }
     }
 
-    const finalY = this.scale.height - finalH / 2;
+    const finalY = this.scale.height - finalH / 2 - 4;
     const startY = this.scale.height + finalH / 2 + 12;
 
     this.syncThermalBoxToTicketGraphic(finalW, finalH, finalY);
@@ -1946,6 +1959,7 @@ class SurvivorScene extends Phaser.Scene {
   }
 
   hideThermalPaperGraphic() {
+    this._lastThermalDims = null;
     if (this.thermalPaperObj) {
       this.tweens.killTweensOf(this.thermalPaperObj);
       if (this.thermalPaperObj.clearMask) {
@@ -2035,8 +2049,8 @@ class SurvivorScene extends Phaser.Scene {
 
     levelupScreen.classList.remove('hidden');
 
-    const paperW = Math.min(520, this.scale.width * 0.68);
-    const paperH = Math.min(340, this.scale.height * 0.62);
+    const paperW = Math.min(520, this.scale.width * 0.72);
+    const paperH = Math.min(340, this.scale.height * 0.72);
     this.createThermalPaperGraphic(this.scale.width / 2, this.scale.height / 2, paperW, paperH)
       .then(() => {
         if (this.gameState === 'LEVELUP' && ticketBox) {
