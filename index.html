@@ -1,90 +1,407 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="screen-orientation" content="landscape">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
-<title>Gsosito Survivor — Hi-Res Pixel Art</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+		<meta name="screen-orientation" content="landscape">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="theme-color" content="#0b0f17">
+		<link rel="apple-touch-icon" href="img/retrato_1.png">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+		<title>Gsosito Survivor — CRA Operator Edition</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
 
-<canvas id="gameCanvas"></canvas>
+		<div id="game-container"></div>
 
-<!-- Pantalla obligatoria para girar el móvil -->
-<div id="rotate-screen">
-  <div class="phone-rotate-icon"></div>
-  <div class="rotate-title">Gira tu dispositivo</div>
-  <div class="rotate-desc">
-    Gsosito Survivor se juega en formato horizontal.<br>
-    Coloca el móvil en apaisado para empezar la patrulla.
-  </div>
-</div>
-
-	<!-- Menú Principal con la imagen ocupando toda la pantalla -->
-	<div id="start-screen" class="overlay" style="
-  background-image: url('img/cover.jpg');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding: 40px;
-">
-		<div style="max-width: 450px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 20px;">
-			<div class="title-badge" style="display:inline-block; margin-bottom:8px;">Hi-Res Pixel Art Edition</div>
-			<h1 class="game-title" style="font-size: 32px; line-height: 1.1; margin-bottom: 10px;">
-				GSOSITO<br>SURVIVOR</h1>
-			<p class="subtitle" style="font-size: 13px; margin-bottom: 15px;">Sobrevive a la caída de la ciudad con tu visor óptico y tu dron de guardia.</p>
+		<!-- Pantalla obligatoria para girar el móvil -->
+		<div id="rotate-screen">
+			<div class="phone-rotate-icon"></div>
+			<div class="rotate-title">Gira tu dispositivo</div>
+			<div class="rotate-desc">
+				Gsosito Survivor se juega en formato horizontal.<br>
+				Coloca el móvil en apaisado para empezar la patrulla.
+			</div>
 		</div>
 
-		<!-- Botón de inicio en el lado inferior izquierdo -->
-		<button id="start-btn" class="action-btn" style="position: relative; z-index: 10;">▶ Jugar Patrulla</button>
-	</div>
+		<!-- Menú Principal -->
+		<div id="start-screen" class="overlay" style="
+		  position: fixed;
+		  inset: 0;
+		  background-color: #0b0f17;
+		  background-image: url('img/cover.jpg');
+		  background-size: cover;
+		  background-repeat: no-repeat;
+		  background-position: center;
+		  z-index: 50;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: flex-end;
+		  align-items: flex-start;
+		  padding: 40px;
+		  overflow: hidden;
+		  pointer-events: auto;
+		">
 
-<!-- Pantalla de Subida de Nivel -->
-<div id="levelup-screen" class="overlay hidden">
-  <div class="modern-panel" style="padding: 16px 20px; width: 100%; max-width: 740px;">
-    <h2 style="font-size: 18px; color: #facc15; margin-bottom: 4px;">¡Mejora de Equipo!</h2>
-    <p style="font-size: 12px; color: #cbd5e1;">Elige un suministro táctico del yermo</p>
-    <div id="cards-container" class="upgrade-cards"></div>
-  </div>
-</div>
+		  <!-- PANEL CON BORDE CHULO (Alineado abajo a la izquierda) -->
+		  <div class="menu-panel" style="
+		    position: relative;
+		    z-index: 2;
+		    background: rgba(11, 15, 23, 0.9);
+		    border: 2px solid #334155;
+		    padding: 24px;
+		    border-radius: 8px;
+		    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+		    max-width: 420px;
+		    width: 100%;
+		    text-align: left;
+		  ">
+		    <div class="title-badge" style="display:inline-block; margin-bottom:6px; color: #facc15; font-size: 10px;">CRA Operator Edition</div>
+		    <h1 class="game-title" style="font-size: 26px; line-height: 1.1; margin-bottom: 8px; color: #fff;">
+		      GSOSITO<br>SURVIVOR
+		    </h1>
+		    <p class="subtitle" style="font-size: 11.5px; margin-bottom: 10px; color: #cbd5e1;">Sobrevive a la caída de la ciudad con tu visor óptico y tu dron de guardia.</p>
+		    <div id="menu-chapas-box" style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 14px; font-family: 'Silkscreen', monospace; color: #facc15; font-size: 13px;">
+  				<img src="img/chapa.png" alt="" width="16" height="16" style="image-rendering: pixelated; flex-shrink: 0;">
+  				<span>Chapas: <span id="menu-chapas-val">0</span></span>
+			</div>
 
-<!-- Pantalla de Fin de Partida con botón volver al menú -->
-<div id="gameover-screen" class="overlay hidden">
-  <div class="modern-panel" style="padding: 18px 22px; max-width: 620px; width: 100%;">
-    <h2 style="font-size: 22px; color: #ef4444; margin-bottom: 4px;">Turno Caído</h2>
-    <p style="font-size: 12.5px; color: #cbd5e1;">La horda del yermo ha superado el perímetro.</p>
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-label">TIEMPO</div>
-        <div id="final-time" class="stat-val">00:00</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">NIVEL</div>
-        <div id="final-level" class="stat-val">1</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">BAJAS</div>
-        <div id="final-kills" class="stat-val">0</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">PUNTOS</div>
-        <div id="final-score" class="stat-val">0</div>
-      </div>
-    </div>
-    <div class="btn-row">
-      <button id="restart-btn" class="action-btn">↺ Reintentar</button>
-      <button id="menu-btn" class="secondary-btn">⌂ Menú Principal</button>
-    </div>
-  </div>
-</div>
+		    <!-- Botones ordenados verticalmente -->
+		    <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+		      <button id="start-btn" class="action-btn" style="width: 100%;">▶ Jugar Patrulla</button>
+		      <button id="upgrades-btn" class="action-btn" style="width: 100%;">Mejoras</button>
+		      <button id="characters-btn" class="action-btn" style="width: 100%;">Personajes</button>
+		      <button id="options-btn" class="secondary-btn" style="width: 100%;">⚙ Opciones</button>
+		    </div>
+		  </div>
 
-<script src="js/game.js"></script>
-</body>
+		</div>
+
+		<!-- Botones Superiores Derecha (Pausa + Pantalla Completa) -->
+		<div style="
+		  position: fixed;
+		  top: max(15px, env(safe-area-inset-top));
+		  right: max(15px, env(safe-area-inset-right));
+		  z-index: 100;
+		  display: flex;
+		  align-items: center;
+		  gap: 8px;
+		">
+			<button id="hud-pause-btn" class="hidden" title="Pausar partida" style="
+			  background: rgba(11, 15, 23, 0.8);
+			  border: 2px solid #334155;
+			  color: #facc15;
+			  padding: 8px 12px;
+			  border-radius: 4px;
+			  cursor: pointer;
+			  font-family: inherit;
+			  font-size: 14px;
+			  box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+			">⏸</button>
+
+			<button id="fullscreen-btn" title="Pantalla completa" style="
+			  background: rgba(11, 15, 23, 0.8);
+			  border: 2px solid #334155;
+			  color: #facc15;
+			  padding: 8px 12px;
+			  border-radius: 4px;
+			  cursor: pointer;
+			  font-family: inherit;
+			  font-size: 14px;
+			  box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+			">⛶</button>
+		</div>
+
+		<style id="thermal-ticket-styles">
+			@keyframes thermalPrintSlide {
+				0% {
+					opacity: 0;
+					transform: translateY(-22px);
+				}
+				100% {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			#levelup-screen {
+				justify-content: center !important;
+  				align-items: center !important;
+  				padding: 18px 16px !important;
+  				overflow: hidden !important;
+			}				
+
+			#levelup-screen .thermal-panel {
+				padding: 10px 14px;
+				width: 100%;
+				max-width: 540px;
+				max-height: none;
+				overflow: hidden;
+				background: transparent;
+				border: none;
+				box-shadow: none;
+			}
+
+			#levelup-screen .thermal-ticket {
+				background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+				color: #0f172a;
+				font-family: 'VT323', 'Silkscreen', monospace;
+				border-radius: 4px 4px 0 0;
+				padding: 20px 20px 24px 20px;
+				box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+				border-top: 5px solid #0f172a;
+				position: relative;
+				opacity: 0;
+				transform: translateY(10px);
+				transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+			}
+
+			#levelup-screen .thermal-ticket.is-ready {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			#levelup-screen .thermal-ticket::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -8px;
+				height: 8px;
+				background: linear-gradient(-45deg, transparent 4px, #f8fafc 4px),
+				            linear-gradient(45deg, transparent 4px, #f8fafc 4px);
+				background-size: 8px 8px;
+			}
+
+			#levelup-screen .thermal-header {
+				border-bottom: 2px dashed #64748b;
+				padding-bottom: 10px;
+				margin-bottom: 14px;
+				text-align: center;
+			}
+
+			#levelup-screen .thermal-brand {
+				font-family: 'Silkscreen', monospace;
+				font-size: 13px;
+				font-weight: 700;
+				letter-spacing: 1px;
+				color: #0f172a;
+			}
+
+			#levelup-screen .thermal-meta {
+				font-size: 14px;
+				color: #334155;
+				margin-top: 3px;
+			}
+
+			#levelup-screen .thermal-items {
+				display: flex;
+				flex-direction: column;
+				gap: 15px;
+			}
+
+			#levelup-screen .thermal-option {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 12px;
+				width: 100%;
+				text-align: left;
+				background: #ffffff;
+				border: 1.5px solid #0f172a;
+				border-left: 5px solid #ea580c;
+				border-radius: 3px;
+				padding: 12px 14px;
+				cursor: pointer;
+				transition: transform 0.1s ease, background-color 0.12s ease;
+				color: #0f172a;
+			}
+
+			#levelup-screen .thermal-option:hover,
+			#levelup-screen .thermal-option:focus-visible {
+				background: #fef9c3;
+				transform: translateX(3px);
+				outline: none;
+			}
+
+			#levelup-screen .thermal-option-main {
+				display: flex;
+				align-items: center;
+				gap: 11px;
+			}
+
+			#levelup-screen .thermal-icon {
+				font-size: 20px;
+				line-height: 1;
+			}
+
+			#levelup-screen .thermal-title {
+				font-family: 'Silkscreen', monospace;
+				font-size: 12px;
+				font-weight: 700;
+				color: #0f172a;
+			}
+
+			#levelup-screen .thermal-desc {
+				font-family: 'VT323', monospace;
+				font-size: 16px;
+				line-height: 1.15;
+				color: #334155;
+			}
+
+			#levelup-screen .thermal-tag {
+				font-family: 'Silkscreen', monospace;
+				font-size: 10px;
+				background: #0f172a;
+				color: #facc15;
+				padding: 4px 7px;
+				border-radius: 2px;
+				white-space: nowrap;
+			}
+
+			#levelup-screen .thermal-footer {
+				border-top: 2px dashed #64748b;
+				margin-top: 13px;
+				padding-top: 9px;
+				display: flex;
+				justify-content: space-between;
+				font-size: 14px;
+				color: #475569;
+			}
+		</style>
+
+		<!-- Pantalla de Subida de Nivel -->
+		<div id="levelup-screen" class="overlay hidden" style="pointer-events: auto; background: rgba(6, 10, 17, 0.22);">
+			<div class="modern-panel thermal-panel">
+				<div id="cards-container"></div>
+			</div>
+		</div>
+
+		<!-- Menú de Pausa -->
+		<div id="pause-screen" class="overlay hidden" style="pointer-events: auto; z-index: 115;">
+			<div class="modern-panel" style="padding: 20px 24px; max-width: 480px; width: 100%;">
+				<h2 style="font-size: 20px; color: #facc15; margin-bottom: 6px;">Patrulla en Pausa</h2>
+				<p style="font-size: 12px; color: #cbd5e1; margin-bottom: 16px;">El reloj del yermo se ha detenido.</p>
+				<div class="btn-row" style="flex-direction: column; gap: 10px;">
+					<button id="resume-btn" class="action-btn" style="width: 100%; pointer-events: auto;">▶ Reanudar Patrulla</button>
+					<button id="pause-options-btn" class="secondary-btn" style="width: 100%; pointer-events: auto;">⚙ Opciones</button>
+					<button id="pause-menu-btn" class="secondary-btn" style="width: 100%; pointer-events: auto;">⌂ Menú Principal</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal de Opciones -->
+		<div id="options-modal" class="overlay hidden" style="pointer-events: auto; z-index: 125;">
+			<div class="modern-panel" style="padding: 18px 22px; max-width: 560px; width: 100%;">
+				<h2 style="font-size: 18px; color: #facc15; margin-bottom: 8px;">Opciones del Sistema</h2>
+				<p style="font-size: 12px; color: #cbd5e1; margin-bottom: 14px;">Gestiona los datos guardados de tu progreso local.</p>
+				<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;text-align:left;">
+					<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;background:rgba(15,23,42,0.85);border:1px solid #334155;border-radius:6px;padding:12px;">
+						<div>
+							<div style="font-weight:bold;color:#f8fafc;font-size:13px;">Borrar datos de la partida</div>
+							<div style="color:#cbd5e1;font-size:11.5px;">Reinicia tus chapas y niveles de mejoras permanentes a 0.</div>
+						</div>
+						<button id="reset-data-btn" class="secondary-btn" style="pointer-events:auto;border-color:#ef4444;color:#fca5a5;white-space:nowrap;">🗑 Borrar datos</button>
+					</div>
+					<div id="reset-data-feedback" style="font-size:11.5px;color:#4ade80;min-height:16px;"></div>
+				</div>
+				<div class="btn-row">
+					<button id="close-options-btn" class="secondary-btn" style="pointer-events: auto;">Cerrar</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Pantalla de Fin de Partida -->
+		<div id="gameover-screen" class="overlay hidden" style="pointer-events: auto;">
+			<div class="modern-panel" style="padding: 18px 22px; max-width: 620px; width: 100%;">
+				<h2 style="font-size: 22px; color: #ef4444; margin-bottom: 4px;">Turno Caído</h2>
+				<p style="font-size: 12.5px; color: #cbd5e1;">La horda del yermo ha superado el perímetro.</p>
+				<div class="stats-grid">
+					<div class="stat-item">
+						<div class="stat-label">TIEMPO</div>
+						<div id="final-time" class="stat-val">00:00</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-label">NIVEL</div>
+						<div id="final-level" class="stat-val">1</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-label">BAJAS</div>
+						<div id="final-kills" class="stat-val">0</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-label">PUNTOS</div>
+						<div id="final-score" class="stat-val">0</div>
+					</div>
+					<div class="stat-item">
+						<div class="stat-label">CHAPAS</div>
+						<div id="final-chapas" class="stat-val" style="color: #facc15;">+0</div>
+					</div>
+				</div>
+				<div class="btn-row">
+					<button id="restart-btn" class="action-btn" style="pointer-events: auto;">↺ Reintentar</button>
+					<button id="menu-btn" class="secondary-btn" style="pointer-events: auto;">⌂ Menú Principal</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal de Mejoras Permanentes -->
+		<div id="upgrades-modal" class="overlay hidden" style="pointer-events: auto; z-index: 120;">
+			<div class="modern-panel" style="padding: 18px 22px; max-width: 660px; width: 100%;">
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+					<h2 style="font-size: 18px; color: #facc15; margin: 0;">Tienda de Mejoras</h2>
+					<div style="display: inline-flex; align-items: center; gap: 6px; font-family: 'Silkscreen', monospace; color: #facc15; font-size: 13px;">
+						<img src="img/chapa.png" alt="" width="16" height="16" style="image-rendering: pixelated; flex-shrink: 0;">
+						<span>Chapas: <span id="shop-chapas-val">0</span></span>
+					</div>
+				</div>
+				<p style="font-size: 12px; color: #cbd5e1; margin-bottom: 14px;">Mejoras permanentes para el equipo inicial de Gsosito</p>
+				<div id="shop-upgrades-list" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;"></div>
+				<div class="btn-row">
+					<button id="close-upgrades-btn" class="secondary-btn" style="pointer-events: auto;">Cerrar</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal de Personajes -->
+		<div id="characters-modal" class="overlay hidden" style="pointer-events: auto; z-index: 120;">
+			<div class="modern-panel" style="padding: 18px 22px; max-width: 620px; width: 100%;">
+				<h2 style="font-size: 18px; color: #facc15; margin-bottom: 8px;">Operadores disponibles</h2>
+				<p style="font-size: 12px; color: #cbd5e1; margin-bottom: 14px;">Selecciona el operador activo para tu patrulla en el yermo.</p>
+				<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;text-align:left;">
+					<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;background:rgba(15,23,42,0.85);border:1px solid #facc15;border-radius:6px;padding:10px 12px;">
+						<div>
+							<div style="font-weight:bold;color:#f8fafc;font-size:13px;">Gsosito — Operador CRA</div>
+							<div style="color:#cbd5e1;font-size:11.5px;">Visor óptico estándar y dron de guardia desplegable.</div>
+						</div>
+						<span style="font-family:'Silkscreen',monospace;font-size:11px;color:#facc15;">ACTIVO</span>
+					</div>
+				</div>
+				<div class="btn-row">
+					<button id="close-characters-btn" class="secondary-btn" style="pointer-events: auto;">Cerrar</button>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Modal de Confirmación de Borrado -->
+		<div id="confirm-reset-modal" class="overlay hidden" style="pointer-events: auto; z-index: 140;">
+			<div class="modern-panel" style="padding: 18px 22px; max-width: 440px; width: 100%;">
+				<h2 style="font-size: 17px; color: #f87171; margin-bottom: 8px;">Confirmar borrado</h2>
+				<p style="font-size: 12px; color: #cbd5e1; margin-bottom: 16px;">¿Seguro que quieres borrar todas tus chapas y mejoras permanentes?</p>
+				<div class="btn-row">
+					<button id="confirm-reset-yes-btn" class="action-btn" style="background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%); color: #fff; box-shadow: 0 4px 0 #7f1d1d;">Sí, borrar</button>
+					<button id="confirm-reset-no-btn" class="secondary-btn">Cancelar</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="module" src="js/game.js"></script>
+	</body>
 </html>

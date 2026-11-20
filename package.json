@@ -1,0 +1,16 @@
+{
+  "name": "gsosito-survivor",
+  "version": "1.0.0",
+  "description": "Juego tipo survivor con Phaser 4",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "phaser": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
