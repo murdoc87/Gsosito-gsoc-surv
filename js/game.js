@@ -1877,19 +1877,18 @@ class SurvivorScene extends Phaser.Scene {
     const panel = document.querySelector('#levelup-screen .thermal-panel');
     if (!panel) return;
 
-    this._lastThermalDims = { finalW, finalH, finalY };
-
     const canvasRect = this.sys.game.canvas.getBoundingClientRect();
     const viewW = this.scale.width || 854;
     const viewH = this.scale.height || 480;
     const scaleX = canvasRect.width / viewW;
     const scaleY = canvasRect.height / viewH;
 
-    const graphicTopPx = canvasRect.top + (finalY - finalH * 0.44) * scaleY;
-    const graphicBottomPx = canvasRect.bottom - Math.max(4, (viewH - (finalY + finalH * 0.46)) * scaleY);
-    const availableHeightPx = Math.max(180, graphicBottomPx - graphicTopPx);
+    const isCompact = window.innerHeight <= 500;
+    const topFactor = isCompact ? 0.44 : 0.16;
+    const graphicTopPx = canvasRect.top + (finalY - finalH * topFactor) * scaleY;
+    const graphicBottomPx = canvasRect.bottom - Math.max(6, (viewH - (finalY + finalH * 0.46)) * scaleY);
     const availableCenterYPx = (graphicTopPx + graphicBottomPx) / 2;
-    const availableWidthPx = Math.min(540, Math.max(260, finalW * 0.86 * scaleX));
+    const availableWidthPx = Math.min(540, Math.max(260, finalW * (isCompact ? 0.88 : 0.78) * scaleX));
 
     panel.style.position = 'fixed';
     panel.style.left = `${Math.round(canvasRect.left + (this.scale.width / 2) * scaleX)}px`;
@@ -1898,9 +1897,8 @@ class SurvivorScene extends Phaser.Scene {
     panel.style.marginTop = '0px';
     panel.style.width = `${Math.round(availableWidthPx)}px`;
     panel.style.maxWidth = '94vw';
-    panel.style.maxHeight = `${Math.round(availableHeightPx)}px`;
   }
-
+  
   createThermalPaperGraphic(centerX, targetY, width, height) {
     this.hideThermalPaperGraphic();
 
