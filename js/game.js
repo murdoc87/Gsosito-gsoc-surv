@@ -128,6 +128,12 @@ const AudioSys = {
   },
   shoot() { this.playTone(980, 'triangle', 0.06, 0.045, 260); },
   novaShoot() { this.playTone(620, 'sawtooth', 0.14, 0.055, 190); },
+  tamperZap() {
+    this.playTone(1480, 'sawtooth', 0.09, 0.065, 320);
+    setTimeout(() => this.playTone(860, 'square', 0.08, 0.045, 190), 35);
+  },
+  bossOrbShoot() { this.playTone(310, 'sine', 0.16, 0.065, 110); },
+  sawShoot() { this.playTone(340, 'sawtooth', 0.16, 0.055, 140); },
   hit() { this.playTone(185, 'sawtooth', 0.055, 0.045, 80); },
   kill() { this.playTone(290, 'square', 0.1, 0.055, 65); },
   pickup() { this.playTone(720, 'sine', 0.07, 0.05, 1240); },
@@ -226,6 +232,35 @@ function buildAllTextures(scene) {
         pxRect(g, 7, 15, 1, 2, '#ffffff');
         pxRect(g, 11, 15, 1, 2, '#ffffff');
       });
+    });
+  });
+
+  // Rata mutante en Canvas (2 fotogramas de movimiento; cabeza orientada a la izquierda)
+  [0, 1].forEach(frame => {
+    registerCanvasTexture(scene, `mutantRat_${frame}`, 32, 24, (g) => {
+      const step = frame === 1 ? 1 : -1;
+      pxRect(g, 20, 13 - step, 6, 2, '#090d14');
+      pxRect(g, 21, 13 - step, 5, 1, '#a3e635');
+      pxRect(g, 25, 10 - step, 3, 3, '#090d14');
+      pxRect(g, 26, 11 - step, 2, 2, '#84cc16');
+      pxRect(g, 15 + step, 17, 4, 4, '#090d14');
+      pxRect(g, 16 + step, 18, 2, 2, '#a3e635');
+      pxRect(g, 8 - step, 17, 4, 4, '#090d14');
+      pxRect(g, 9 - step, 18, 2, 2, '#84cc16');
+      pxRect(g, 8, 10, 14, 9, '#090d14');
+      pxRect(g, 9, 11, 12, 7, '#4d7c0f');
+      pxRect(g, 10, 11, 10, 3, '#84cc16');
+      pxRect(g, 12, 12, 3, 2, '#bef264');
+      pxRect(g, 17, 13, 2, 2, '#a855f7');
+      pxRect(g, 2, 8, 10, 8, '#090d14');
+      pxRect(g, 3, 9, 8, 6, '#65a30d');
+      pxRect(g, 1, 12, 3, 2, '#bef264');
+      pxRect(g, 5, 4, 3, 4, '#090d14');
+      pxRect(g, 9, 5, 3, 3, '#090d14');
+      pxRect(g, 6, 5, 2, 3, '#d9f99d');
+      pxRect(g, 10, 6, 1, 2, '#d9f99d');
+      pxRect(g, 4, 10, 2, 2, '#ef4444');
+      pxRect(g, 4, 10, 1, 1, '#fef08a');
     });
   });
 
@@ -350,6 +385,33 @@ function buildAllTextures(scene) {
     });
   });
 
+  registerCanvasTexture(scene, 'tolcrap_saw', 22, 22, (g) => {
+    pxRect(g, 9, 0, 4, 3, '#cbd5e1');
+    pxRect(g, 9, 19, 4, 3, '#cbd5e1');
+    pxRect(g, 0, 9, 3, 4, '#cbd5e1');
+    pxRect(g, 19, 9, 3, 4, '#cbd5e1');
+    pxRect(g, 2, 2, 3, 3, '#94a3b8');
+    pxRect(g, 17, 2, 3, 3, '#94a3b8');
+    pxRect(g, 2, 17, 3, 3, '#94a3b8');
+    pxRect(g, 17, 17, 3, 3, '#94a3b8');
+    pxRect(g, 4, 4, 14, 14, '#090d14');
+    pxRect(g, 5, 5, 12, 12, '#e2e8f0');
+    pxRect(g, 6, 6, 10, 10, '#94a3b8');
+    pxRect(g, 8, 8, 6, 6, '#ef4444');
+    pxRect(g, 10, 10, 2, 2, '#fef08a');
+  });
+
+  registerCanvasTexture(scene, 'purple_orb', 16, 16, (g) => {
+    pxRect(g, 4, 1, 8, 14, '#090d14');
+    pxRect(g, 1, 4, 14, 8, '#090d14');
+    pxRect(g, 4, 2, 8, 12, '#7e22ce');
+    pxRect(g, 2, 4, 12, 8, '#7e22ce');
+    pxRect(g, 4, 3, 8, 10, '#c084fc');
+    pxRect(g, 3, 5, 10, 6, '#c084fc');
+    pxRect(g, 5, 4, 4, 4, '#f3e8ff');
+    pxRect(g, 6, 5, 2, 2, '#ffffff');
+  });
+
   registerCanvasTexture(scene, 'boss_0', 56, 60, (g) => {
     pxRect(g, 12, 4, 32, 30, '#09090b');
     pxRect(g, 10, 8, 36, 24, '#18181b');
@@ -394,12 +456,16 @@ function buildAllTextures(scene) {
     pxRect(g, 8, 6, 2, 5, '#ffffff');
     pxRect(g, 6, 8, 6, 1, '#ffffff');
   });
-  registerCanvasTexture(scene, 'battery', 16, 18, (g) => {
-    pxRect(g, 5, 1, 6, 3, '#0f1218');
-    pxRect(g, 3, 3, 10, 13, '#0f1218');
-    pxRect(g, 4, 4, 8, 11, '#16a34a');
-    pxRect(g, 5, 5, 6, 3, '#86efac');
-    pxRect(g, 5, 10, 6, 3, '#86efac');
+  registerCanvasTexture(scene, 'battery', 20, 20, (g) => {
+    pxRect(g, 6, 1, 8, 18, '#09111e');
+    pxRect(g, 4, 3, 12, 14, '#09111e');
+    pxRect(g, 2, 6, 16, 8, '#09111e');
+    pxRect(g, 5, 4, 10, 12, '#0284c7');
+    pxRect(g, 3, 6, 14, 8, '#0284c7');
+    pxRect(g, 6, 5, 8, 10, '#38bdf8');
+    pxRect(g, 4, 7, 12, 6, '#38bdf8');
+    pxRect(g, 6, 6, 5, 5, '#bae6fd');
+    pxRect(g, 7, 7, 3, 3, '#ffffff');
   });
 
   registerCanvasTexture(scene, 'magnet_drop', 20, 20, (g) => {
@@ -416,16 +482,21 @@ function buildAllTextures(scene) {
     pxRect(g, 13, 2, 2, 2, '#ffffff');
   });
 
-  registerCanvasTexture(scene, 'bomb_drop', 20, 22, (g) => {
-    pxRect(g, 11, 1, 3, 3, '#fbbf24');
-    pxRect(g, 13, 0, 3, 2, '#fef08a');
-    pxRect(g, 9, 4, 4, 2, '#94a3b8');
-    pxRect(g, 3, 6, 14, 14, '#090d14');
-    pxRect(g, 4, 7, 12, 12, '#1e293b');
-    pxRect(g, 5, 8, 10, 10, '#0f172a');
-    pxRect(g, 6, 9, 3, 3, '#94a3b8');
-    pxRect(g, 9, 11, 4, 4, '#ef4444');
-    pxRect(g, 10, 12, 2, 2, '#fef08a');
+  registerCanvasTexture(scene, 'bomb_drop', 22, 24, (g) => {
+    pxRect(g, 15, 1, 2, 2, '#fef08a');
+    pxRect(g, 14, 2, 4, 2, '#f97316');
+    pxRect(g, 16, 0, 2, 2, '#ffffff');
+    pxRect(g, 13, 3, 2, 2, '#d6b37c');
+    pxRect(g, 11, 4, 2, 2, '#b68d52');
+    pxRect(g, 9, 5, 6, 3, '#090d14');
+    pxRect(g, 10, 6, 4, 2, '#94a3b8');
+    pxRect(g, 5, 8, 12, 14, '#090d14');
+    pxRect(g, 3, 10, 16, 10, '#090d14');
+    pxRect(g, 6, 9, 10, 12, '#1e293b');
+    pxRect(g, 4, 11, 14, 8, '#1e293b');
+    pxRect(g, 5, 11, 12, 7, '#0f172a');
+    pxRect(g, 6, 11, 3, 2, '#64748b');
+    pxRect(g, 5, 13, 2, 2, '#475569');
   });
 
   registerCanvasTexture(scene, 'laser', 22, 6, (g) => {
@@ -518,103 +589,235 @@ function buildAllTextures(scene) {
   });
 }
 
-function upgradeDomoFish(p) {
-  const nextLvl = (p.domoFish.level || 0) + 1;
-  p.domoFish.level = nextLvl;
+function getEnemyDepth(enemy, isBoss = false) {
+  return Math.round(enemy.y + 2000 + (isBoss ? 25 : 0));
+}
+
+function applyEnemyFacing(enemy, vx, facingLeftByDefault) {
+  if (Math.abs(vx) < 0.01) return;
+  const movingRight = vx > 0;
+  enemy.setFlipX(facingLeftByDefault ? movingRight : !movingRight);
+}
+
+function applyVeterancyUpgrade(p) {
+  p.veterancyLevel = (p.veterancyLevel || 0) + 1;
+  // Cada nivel aporta un poco más de reducción de daño (rendimiento creciente) hasta un máximo del 75%
+  const stepGain = 0.06 + (p.veterancyLevel - 1) * 0.025;
+  p.damageReduction = Math.min(0.75, Number(((p.damageReduction || 0) + stepGain).toFixed(4)));
+}
+
+function getReducedDamage(stats, rawDamage) {
+  const reduction = Math.max(0, Math.min(0.75, stats?.damageReduction || 0));
+  return Math.max(1, Math.round(rawDamage * (1 - reduction)));
+}
+
+function activateDomoFish(p) {
   p.domoFish.enabled = true;
-  p.domoFish.rays = 8 + (nextLvl - 1) * 4;
-  p.domoFish.baseDamage = 16 + (nextLvl - 1) * 7;
-  p.domoFish.baseCooldown = Math.max(1.35, 3.2 - (nextLvl - 1) * 0.28);
+  p.domoFish.level = Math.max(1, p.domoFish.level || 0);
+  p.domoFish.rays = Math.max(4, p.domoFish.rays || 4);
+  p.domoFish.baseDamage = Math.max(16, p.domoFish.baseDamage || 16);
+  p.domoFish.baseCooldown = Math.min(3.2, p.domoFish.baseCooldown || 3.2);
   p.domoFish.timer = 0.05;
 }
+
+function activateDrones(p) {
+  p.dronesEnabled = true;
+  p.orbitals = Math.max(1, p.orbitals || 0);
+}
+
+function upgradeTamperAttack(p) {
+  const nextLvl = (p.tamper.level || 0) + 1;
+  p.tamper.level = nextLvl;
+  p.tamper.enabled = true;
+  if (nextLvl === 1) {
+    p.tamper.cooldown = 5.0;
+    p.tamper.targets = 1;
+    p.tamper.damage = 34;
+    p.tamper.timer = 0.25;
+  } else {
+    p.tamper.damage = Math.round(p.tamper.damage * 1.24);
+  }
+}
+
+const ACTIVATOR_UPGRADE_IDS = new Set(['domofish360', 'tamper_attack', 'orbital']);
+
+function getUpgradeTagLabel(upg, stats) {
+  if (ACTIVATOR_UPGRADE_IDS.has(upg.id)) {
+    return 'ACTIVAR';
+  }
+  const takenCount = Number(stats?.upgradeCounts?.[upg.id]) || 0;
+  return `NV.${takenCount + 1}`;
+}
+
+const DOMO_ICON = '🔮';
+const DRONE_ICON = '🤖';
+const TAMPER_ICON = '🌩️';
 
 const UPGRADES = [
   {
     id: 'firerate',
     icon: '🔴',
-    title: 'Overclock Óptico',
-    desc: '+22% cadencia de disparo (solo láser básico)',
+    title: 'Overclocking',
+    desc: 'Aumenta cadencia de disparo del láser básico',
     apply: (p) => { p.weapon.cooldown *= 0.78; }
   },
   {
     id: 'damage',
-    icon: '⚡',
-    title: 'Diodo de Alta Potencia',
-    desc: '+32% daño base (solo láser básico)',
+    icon: '🔴',
+    title: 'Alta Potencia',
+    desc: 'Aumenta daño base del láser básico',
     apply: (p) => { p.weapon.damage = Math.round(p.weapon.damage * 1.32); }
   },
   {
     id: 'multishot',
-    icon: '💠',
-    title: 'Prisma Multi-Haz',
+    icon: '🔴',
+    title: 'Bi-Spectrum',
     desc: '+1 disparo láser simultáneo',
     apply: (p) => { p.weapon.projectileCount += 1; }
   },
   {
     id: 'pierce',
-    icon: '🔦',
-    title: 'Haz Perforante',
+    icon: '🔴',
+    title: 'Láser Perforante',
     desc: 'Cada láser básico atraviesa +1 enemigo',
     apply: (p) => { p.weapon.pierce += 1; }
   },
   {
     id: 'domofish360',
-    icon: '🐡',
+    icon: DOMO_ICON,
     title: 'Domo-Fish 360',
-    desc: 'Anillos de láseres en 360° (+4 haces, daño y recarga al mejorar)',
-    apply: (p) => { upgradeDomoFish(p); }
+    desc: 'Activa un anillo circular de 4 láseres alrededor de ti',
+    requires: (p) => !p.domoFish?.enabled,
+    apply: (p) => { activateDomoFish(p); }
+  },
+  {
+    id: 'domofish_rays',
+    icon: DOMO_ICON,
+    title: 'Ráfaga Domo',
+    desc: '+2 proyectiles por anillo de Domo-Fish 360',
+    requires: (p) => Boolean(p.domoFish?.enabled),
+    apply: (p) => { p.domoFish.rays = Math.min(36, (p.domoFish.rays || 4) + 2); }
+  },
+  {
+    id: 'domofish_firerate',
+    icon: DOMO_ICON,
+    title: 'Cadencia Domo',
+    desc: 'Aumenta la velocidad de disparo de Domo-Fish',
+    requires: (p) => Boolean(p.domoFish?.enabled),
+    apply: (p) => { p.domoFish.baseCooldown = Math.max(1.1, Number((p.domoFish.baseCooldown / 1.2).toFixed(3))); }
+  },
+  {
+    id: 'domofish_damage',
+    icon: DOMO_ICON,
+    title: 'Potencia Domo',
+    desc: 'Aumenta el daño de los láseres de Domo-Fish',
+    requires: (p) => Boolean(p.domoFish?.enabled),
+    apply: (p) => { p.domoFish.baseDamage = Math.round(p.domoFish.baseDamage * 1.3); }
+  },
+  {
+    id: 'tamper_attack',
+    icon: TAMPER_ICON,
+    title: 'Ataque Tamper',
+    desc: 'Cada 5s un rayo golpea a 1 enemigo aleatorio',
+    requires: (p) => !p.tamper?.enabled,
+    apply: (p) => { upgradeTamperAttack(p); }
+  },
+  {
+    id: 'tamper_cd',
+    icon: TAMPER_ICON,
+    title: 'Pulso Tamper',
+    desc: 'Reduce el tiempo entre rayos de Ataque Tamper',
+    requires: (p) => Boolean(p.tamper?.enabled),
+    apply: (p) => { p.tamper.cooldown = Math.max(1.2, Number((p.tamper.cooldown * 0.82).toFixed(3))); }
+  },
+  {
+    id: 'tamper_targets',
+    icon: TAMPER_ICON,
+    title: 'Arco Tamper',
+    desc: '+1 enemigo aleatorio golpeado por Ataque Tamper',
+    requires: (p) => Boolean(p.tamper?.enabled),
+    apply: (p) => { p.tamper.targets = Math.min(8, (p.tamper.targets || 1) + 1); }
+  },
+  {
+    id: 'tamper_dmg',
+    icon: TAMPER_ICON,
+    title: 'Voltaje Tamper',
+    desc: 'Aumenta el daño de los rayos de Ataque Tamper',
+    requires: (p) => Boolean(p.tamper?.enabled),
+    apply: (p) => { p.tamper.damage = Math.round(p.tamper.damage * 1.3); }
+  },
+  {
+    id: 'orbital',
+    icon: DRONE_ICON,
+    title: 'Dron de Vigilancia',
+    desc: 'Activa un dron orbital que daña a los enemigos cercanos',
+    requires: (p) => !p.dronesEnabled,
+    apply: (p) => { activateDrones(p); }
+  },
+  {
+    id: 'drone_count',
+    icon: DRONE_ICON,
+    title: 'Enjambre de Drones',
+    desc: '+1 dron defensor orbital girando a tu alrededor',
+    requires: (p) => Boolean(p.dronesEnabled),
+    apply: (p) => { p.orbitals = Math.min(8, (p.orbitals || 1) + 1); }
+  },
+  {
+    id: 'drone_speed',
+    icon: DRONE_ICON,
+    title: 'Propulsores de Dron',
+    desc: 'Aumenta la velocidad de giro de los drones orbitales',
+    requires: (p) => Boolean(p.dronesEnabled),
+    apply: (p) => { p.droneOrbitSpeed = Number((p.droneOrbitSpeed * 1.35).toFixed(3)); }
+  },
+  {
+    id: 'drone_area',
+    icon: DRONE_ICON,
+    title: 'Alcance de Dron',
+    desc: 'Aumenta el radio de órbita y mayor área de patrulla de los drones',
+    requires: (p) => Boolean(p.dronesEnabled),
+    apply: (p) => { p.droneOrbitRadius = Math.min(145, p.droneOrbitRadius + 12); }
   },
   {
     id: 'global_damage',
     icon: '☢️',
-    title: 'Núcleo de Sobrecarga',
-    desc: '+18% DAÑO GLOBAL a todos tus ataques y drones',
+    title: 'Operativa',
+    desc: 'Aumenta el daño de TODOS tus ataques y drones',
     apply: (p) => { p.globalDamageMult = Number((p.globalDamageMult * 1.18).toFixed(3)); }
   },
   {
     id: 'global_firerate',
     icon: '⚙️',
-    title: 'Sincronizador Neuronal',
-    desc: '+15% CADENCIA GLOBAL en todas tus armas',
+    title: 'Cafeína',
+    desc: 'Aumenta la cadencia de TODOS tus ataques',
     apply: (p) => { p.globalFirerateMult = Number((p.globalFirerateMult * 1.15).toFixed(3)); }
-  },
-  {
-    id: 'orbital',
-    icon: '🤖',
-    title: 'Dron de Vigilancia',
-    desc: '+1 dron defensor orbital protector',
-    apply: (p) => { p.orbitals += 1; }
-  },
-  {
-    id: 'drone_speed',
-    icon: '🛸',
-    title: 'Propulsores de Dron',
-    desc: '+35% velocidad de órbita y +8px de radio para los drones',
-    requires: (p) => p.orbitals > 0,
-    apply: (p) => {
-      p.droneOrbitSpeed = Number((p.droneOrbitSpeed * 1.35).toFixed(3));
-      p.droneOrbitRadius = Math.min(130, p.droneOrbitRadius + 8);
-    }
   },
   {
     id: 'speed',
     icon: '🥾',
-    title: 'Botas Tácticas',
-    desc: '+16% velocidad de desplazamiento',
+    title: 'Botas de seguridad',
+    desc: 'Aumenta tu velocidad de movimiento',
     apply: (p) => { p.speed *= 1.16; }
   },
   {
     id: 'maxhp',
-    icon: '🧰',
+    icon: '❤️',
     title: 'Blindaje Reforzado',
-    desc: '+30 salud máxima y curación',
+    desc: '+30 salud máxima y curación total',
     apply: (p) => { p.maxHp += 30; p.hp = Math.min(p.maxHp, p.hp + 45); }
+  },
+  {
+    id: 'veterancy',
+    icon: '🛡️',
+    title: 'Veteranía',
+    desc: 'Aumenta la reducción de daño recibido (cada nivel aporta más)',
+    apply: (p) => { applyVeterancyUpgrade(p); }
   },
   {
     id: 'magnet',
     icon: '🧲',
     title: 'Imán de Suministros',
-    desc: '+45% radio de recolección pasiva',
+    desc: 'Aumenta tu radio de recolección pasiva',
     apply: (p) => { p.pickupRange *= 1.45; }
   }
 ];
@@ -655,7 +858,7 @@ class SurvivorScene extends Phaser.Scene {
       frameWidth: 33, frameHeight: 48
     });
     this.load.spritesheet('gsosito_walk_side', 'img/gsosito/walk_side_sheet.png', {
-      frameWidth: 30, frameHeight: 46
+      frameWidth: 31, frameHeight: 48
     });
     this.load.image('ticket_img', 'img/ticket.png');
   }
@@ -675,6 +878,7 @@ class SurvivorScene extends Phaser.Scene {
     this.bossKills = 0;
     this.bossSpawnCount = 0;
     this.bossSpawnTimer = 180;
+    this.wastelandBossSpawnedAt8Min = false;
     this.spawnTimer = 0;
     this.lastHitBossSprite = null;
 
@@ -696,8 +900,10 @@ class SurvivorScene extends Phaser.Scene {
     this.solidProps = this.physics.add.staticGroup();
     this.enemies = this.physics.add.group();
     this.projectiles = this.physics.add.group();
+    this.enemyProjectiles = this.physics.add.group();
     this.gems = this.physics.add.group();
     this.drones = [];
+    this.tamperFxGraphics = this.add.graphics().setDepth(9500);
 
     this.generateWastelandProps();
 
@@ -713,6 +919,7 @@ class SurvivorScene extends Phaser.Scene {
     this.physics.add.collider(this.enemies, this.enemies);
     this.physics.add.overlap(this.projectiles, this.enemies, this.onProjectileHit, null, this);
     this.physics.add.overlap(this.player, this.enemies, this.onPlayerHit, null, this);
+    this.physics.add.overlap(this.player, this.enemyProjectiles, this.onEnemyProjectileHit, null, this);
     this.physics.add.overlap(this.player, this.gems, this.onCollectGem, null, this);
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -753,6 +960,10 @@ class SurvivorScene extends Phaser.Scene {
       speed: Math.round(100 * speedMult),
       pickupRange: 65,
       invulnTimer: 0,
+      damageReduction: 0,
+      veterancyLevel: 0,
+      upgradeCounts: {},
+      dronesEnabled: false,
       orbitals: 0,
       orbitalAngle: 0,
       droneOrbitRadius: 68,
@@ -770,13 +981,21 @@ class SurvivorScene extends Phaser.Scene {
       domoFish: {
         enabled: false,
         level: 0,
-        rays: 8,
+        rays: 4,
         baseDamage: 16,
         baseCooldown: 3.2,
         timer: 0,
         ringOffset: 0,
         projectileSpeed: 290,
         pierce: 2
+      },
+      tamper: {
+        enabled: false,
+        level: 0,
+        cooldown: 5.0,
+        targets: 1,
+        damage: 34,
+        timer: 0
       }
     };
   }
@@ -798,7 +1017,7 @@ class SurvivorScene extends Phaser.Scene {
 
     this.anims.create({
       key: 'gsosito_side',
-      frames: this.anims.generateFrameNumbers('gsosito_walk_side', { start: 0, end: 1 }),
+      frames: this.anims.generateFrameNumbers('gsosito_walk_side', { start: 0, end: 3 }),
       frameRate: 4,
       repeat: -1
     });
@@ -806,6 +1025,7 @@ class SurvivorScene extends Phaser.Scene {
     const animsList = [
       { key: 'catOrange_walk', prefix: 'catOrange', rate: 10 },
       { key: 'catGray_walk', prefix: 'catGray', rate: 10 },
+      { key: 'mutantRat_walk', prefix: 'mutantRat', rate: 11 },
       { key: 'thief_walk', prefix: 'thief', rate: 7 },
       { key: 'logistics_walk', prefix: 'logistics', rate: 6 },
       { key: 'foreman_walk', prefix: 'foreman', rate: 5 }
@@ -825,7 +1045,7 @@ class SurvivorScene extends Phaser.Scene {
 
   generateWastelandProps() {
     this.solidProps.clear(true, true);
-    const weightedTypes = [      
+    const weightedTypes = [
       { key: 'prop_car', solid: true, w: 181, h: 83 },
       { key: 'prop_car_2', solid: true, w: 192, h: 72 },
       { key: 'prop_barrier', solid: true, w: 28, h: 12 },
@@ -1453,9 +1673,11 @@ class SurvivorScene extends Phaser.Scene {
     this.player.setData('stats', this.getDefaultStats());
     this.enemies.clear(true, true);
     this.projectiles.clear(true, true);
+    this.enemyProjectiles.clear(true, true);
     this.gems.clear(true, true);
     this.drones.forEach(d => d.destroy());
     this.drones = [];
+    if (this.tamperFxGraphics) this.tamperFxGraphics.clear();
 
     this.elapsedTime = 0;
     this.score = 0;
@@ -1463,6 +1685,7 @@ class SurvivorScene extends Phaser.Scene {
     this.bossKills = 0;
     this.bossSpawnCount = 0;
     this.bossSpawnTimer = 180;
+    this.wastelandBossSpawnedAt8Min = false;
     this.spawnTimer = 0;
     this.lastHitBossSprite = null;
     this.hordeTriggered = false;
@@ -1552,9 +1775,11 @@ class SurvivorScene extends Phaser.Scene {
     });
     this.enemies.clear(true, true);
     this.projectiles.clear(true, true);
+    this.enemyProjectiles.clear(true, true);
     this.gems.clear(true, true);
     this.drones.forEach(d => d.destroy());
     this.drones = [];
+    if (this.tamperFxGraphics) this.tamperFxGraphics.clear();
     this.player.setPosition(0, 0);
     this.player.setVelocity(0, 0);
     this.lastHitBossSprite = null;
@@ -1585,22 +1810,111 @@ class SurvivorScene extends Phaser.Scene {
     return 'tolcrap_boss';
   }
 
+  syncTolcrapHitbox(boss, mode = 'side') {
+    if (!boss || !boss.body) return;
+    const w = boss.width || 112;
+    const h = boss.height || 64;
+
+    if (mode === 'vertical') {
+      const bw = Math.max(24, Math.round(w * 0.55));
+      const bh = Math.max(24, Math.round(h * 0.72));
+      const ox = Math.round((w - bw) / 2);
+      const oy = Math.round((h - bh) / 2) + 4;
+      boss.body.setSize(bw, bh);
+      boss.body.setOffset(ox, oy);
+    } else {
+      const bw = Math.max(24, Math.round(w * 0.82));
+      const bh = Math.max(24, Math.round(h * 0.65));
+      const ox = Math.round((w - bw) / 2);
+      const oy = Math.round((h - bh) / 2) + 4;
+      boss.body.setSize(bw, bh);
+      boss.body.setOffset(ox, oy);
+    }
+  }
+
   applyTolcrapDirectionSprite(boss, vx, vy) {
-    const sideKey = this.getTolcrapBaseTexture();
-    const upKey = this.hasValidTexture('tolcrap_up') ? 'tolcrap_up' : sideKey;
-    const downKey = this.hasValidTexture('tolcrap_down') ? 'tolcrap_down' : sideKey;
+    const rightKey = this.hasValidTexture('tolcrap_side')
+      ? 'tolcrap_side'
+      : this.getTolcrapBaseTexture();
+    const leftKey = this.hasValidTexture('tolcrap_custom')
+      ? 'tolcrap_custom'
+      : rightKey;
+    const upKey = this.hasValidTexture('tolcrap_up') ? 'tolcrap_up' : rightKey;
+    const downKey = this.hasValidTexture('tolcrap_down') ? 'tolcrap_down' : rightKey;
 
     if (Math.abs(vy) > Math.abs(vx)) {
       const nextKey = vy < 0 ? upKey : downKey;
       if (boss.texture.key !== nextKey) boss.setTexture(nextKey);
       boss.setFlipX(false);
+      this.syncTolcrapHitbox(boss, 'vertical');
+    } else if (vx < 0) {
+      if (boss.texture.key !== leftKey) boss.setTexture(leftKey);
+      boss.setFlipX(!this.hasValidTexture('tolcrap_custom'));
+      this.syncTolcrapHitbox(boss, 'side');
     } else {
-      if (boss.texture.key !== sideKey) boss.setTexture(sideKey);
-      boss.setFlipX(vx < 0);
+      if (boss.texture.key !== rightKey) boss.setTexture(rightKey);
+      boss.setFlipX(false);
+      this.syncTolcrapHitbox(boss, 'side');
     }
   }
 
-  spawnEnemy(forceBoss = false) {
+  fireTolcrapSaw(boss) {
+    if (!boss || !boss.active || !this.player || !this.player.active) return;
+    const eData = boss.getData('enemy');
+    const sawDmg = Math.max(12, Math.round((eData?.damage || 30) * 0.65));
+    const speed = 245;
+    const count = 3;
+    const spread = 0.22;
+    const baseAngle = Phaser.Math.Angle.Between(boss.x, boss.y, this.player.x, this.player.y);
+
+    for (let i = 0; i < count; i++) {
+      const angle = baseAngle + (i - (count - 1) / 2) * spread;
+      const spawnX = boss.x + Math.cos(angle) * 24;
+      const spawnY = boss.y + Math.sin(angle) * 24;
+
+      const saw = this.enemyProjectiles.create(spawnX, spawnY, 'tolcrap_saw').setDepth(getEnemyDepth(boss, true) + 2);
+      saw.body.setCircle(9, 2, 2);
+      saw.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
+      saw.setAngularVelocity(580);
+      saw.setData('enemyProj', { damage: sawDmg });
+
+      this.time.delayedCall(3400, () => {
+        if (saw && saw.active) saw.destroy();
+      });
+    }
+
+    AudioSys.sawShoot();
+  }
+
+  fireWastelandBossPurpleOrbs(boss) {
+    if (!boss || !boss.active || !this.player || !this.player.active) return;
+    const eData = boss.getData('enemy');
+    const orbDmg = Math.max(16, Math.round((eData?.damage || 34) * 0.72));
+    const orbSpeed = 175;
+    const count = 5;
+    const spread = 0.24;
+    const baseAngle = Phaser.Math.Angle.Between(boss.x, boss.y, this.player.x, this.player.y);
+
+    for (let i = 0; i < count; i++) {
+      const a = baseAngle + (i - (count - 1) / 2) * spread;
+      const orb = this.enemyProjectiles.create(
+        boss.x + Math.cos(a) * 26,
+        boss.y + Math.sin(a) * 26,
+        'purple_orb'
+      ).setDepth(getEnemyDepth(boss, true) + 2);
+      orb.body.setCircle(6, 2, 2);
+      orb.setVelocity(Math.cos(a) * orbSpeed, Math.sin(a) * orbSpeed);
+      orb.setData('enemyProj', { damage: orbDmg });
+
+      this.time.delayedCall(3800, () => {
+        if (orb && orb.active) orb.destroy();
+      });
+    }
+
+    AudioSys.bossOrbShoot();
+  }
+
+  spawnEnemy(forceBoss = false, isMinute8WastelandBoss = false) {
     const angle = Math.random() * Math.PI * 2;
     const dist = Math.hypot(this.scale.width / 2, this.scale.height / 2) + 60;
     const ex = this.player.x + Math.cos(angle) * dist;
@@ -1609,14 +1923,13 @@ class SurvivorScene extends Phaser.Scene {
 
     if (forceBoss) {
       this.bossSpawnCount = (this.bossSpawnCount || 0) + 1;
-      const isTolcrap = this.bossSpawnCount === 1;
+      const isTolcrap = !isMinute8WastelandBoss && this.bossSpawnCount === 1;
 
       if (isTolcrap) {
         const truckKey = this.getTolcrapBaseTexture();
-        const boss = this.enemies.create(ex, ey, truckKey).setDepth(9);
-        boss.body.setSize(92, 42);
-        boss.body.setOffset(10, 14);
-        const hpBar = this.add.graphics().setDepth(9);
+        const boss = this.enemies.create(ex, ey, truckKey).setDepth(getEnemyDepth({ y: ey }, true));
+        this.syncTolcrapHitbox(boss, 'side');
+        const hpBar = this.add.graphics().setDepth(getEnemyDepth({ y: ey }, true) + 1);
         const maxHp = Math.round(780 * diff);
 
         boss.setData('enemy', {
@@ -1628,6 +1941,8 @@ class SurvivorScene extends Phaser.Scene {
           xp: 110,
           isBoss: true,
           isTolcrap: true,
+          facingLeftByDefault: false,
+          sawTimer: 1.5,
           orbCd: 0,
           hpBar
         });
@@ -1637,59 +1952,177 @@ class SurvivorScene extends Phaser.Scene {
         return;
       }
 
-      const boss = this.enemies.create(ex, ey, 'boss_0').setDepth(9);
-      boss.body.setCircle(20, 8, 12);
-      const hpBar = this.add.graphics().setDepth(9);
-      const maxHp = Math.round(680 * diff);
+      const boss = this.enemies.create(ex, ey, 'boss_0').setDepth(getEnemyDepth({ y: ey }, true));
+      const bossScale = isMinute8WastelandBoss ? 1.55 : 1.15;
+      boss.setScale(bossScale);
+      boss.body.setCircle(22, 6, 10);
+      const hpBar = this.add.graphics().setDepth(getEnemyDepth({ y: ey }, true) + 1);
+      const maxHp = isMinute8WastelandBoss
+        ? Math.round(2150 * Math.max(1, diff))
+        : Math.round(720 * diff);
 
       boss.setData('enemy', {
-        name: `COLOSO DEL YERMO #${this.bossSpawnCount}`,
+        name: isMinute8WastelandBoss
+          ? 'SEÑOR SUPREMO DEL YERMO'
+          : `COLOSO DEL YERMO #${this.bossSpawnCount}`,
         hp: maxHp,
         maxHp,
-        speed: 52,
-        damage: 30,
-        xp: 80,
+        speed: isMinute8WastelandBoss ? 48 : 52,
+        damage: isMinute8WastelandBoss ? 36 : 30,
+        xp: isMinute8WastelandBoss ? 180 : 80,
         isBoss: true,
+        isWastelandBoss: isMinute8WastelandBoss,
+        facingLeftByDefault: false,
+        purpleOrbTimer: isMinute8WastelandBoss ? 1.6 : 2.8,
         orbCd: 0,
         hpBar
       });
-      this.addFloatingText(this.player.x, this.player.y - 38, '¡JEFE HA APARECIDO!', '#c084fc');
+
+      this.lastHitBossSprite = boss;
+      this.addFloatingText(
+        this.player.x,
+        this.player.y - 38,
+        isMinute8WastelandBoss ? '¡EL JEFE DEL YERMO HA LLEGADO!' : '¡JEFE HA APARECIDO!',
+        '#c084fc'
+      );
       return;
     }
 
     const roll = Math.random();
     const t = this.elapsedTime;
-    let cfg = { key: 'thief', radius: 11, speed: 62, hp: 26 * diff, damage: 9, xp: 6 };
+    let cfg = {
+      key: 'mutantRat',
+      radius: 10,
+      speed: 78,
+      hp: 20 * diff,
+      damage: 7,
+      xp: 5,
+      facingLeftByDefault: true
+    };
 
-    if (t < 20) {
-      cfg = roll < 0.62
-        ? { key: Math.random() > 0.45 ? 'catOrange' : 'catGray', radius: 9, speed: 84, hp: 16 * diff, damage: 6, xp: 4 }
-        : { key: 'thief', radius: 11, speed: 59, hp: 25 * diff, damage: 8, xp: 6 };
-    } else if (t < 60) {
-      if (roll < 0.40) {
-        cfg = { key: Math.random() > 0.45 ? 'catOrange' : 'catGray', radius: 9, speed: 90, hp: 17 * diff, damage: 7, xp: 4 };
-      } else if (roll < 0.80) {
-        cfg = { key: 'thief', radius: 11, speed: 66, hp: 29 * diff, damage: 10, xp: 6 };
+    if (t < 120) {
+      if (roll < 0.52) {
+        cfg = {
+          key: Math.random() > 0.45 ? 'catOrange' : 'catGray',
+          radius: 9,
+          speed: 86,
+          hp: 16 * diff,
+          damage: 6,
+          xp: 4,
+          facingLeftByDefault: true
+        };
       } else {
-        cfg = { key: 'logistics', radius: 12, speed: 51, hp: 45 * diff, damage: 12, xp: 9 };
+        cfg = {
+          key: 'mutantRat',
+          radius: 10,
+          speed: 78,
+          hp: 21 * diff,
+          damage: 7,
+          xp: 5,
+          facingLeftByDefault: true
+        };
+      }
+    } else if (t < 210) {
+      if (roll < 0.32) {
+        cfg = {
+          key: Math.random() > 0.45 ? 'catOrange' : 'catGray',
+          radius: 9,
+          speed: 90,
+          hp: 18 * diff,
+          damage: 7,
+          xp: 4,
+          facingLeftByDefault: true
+        };
+      } else if (roll < 0.62) {
+        cfg = {
+          key: 'mutantRat',
+          radius: 10,
+          speed: 84,
+          hp: 25 * diff,
+          damage: 8,
+          xp: 5,
+          facingLeftByDefault: true
+        };
+      } else if (roll < 0.85) {
+        cfg = {
+          key: 'thief',
+          radius: 11,
+          speed: 66,
+          hp: 31 * diff,
+          damage: 10,
+          xp: 6,
+          facingLeftByDefault: false
+        };
+      } else {
+        cfg = {
+          key: 'logistics',
+          radius: 12,
+          speed: 51,
+          hp: 48 * diff,
+          damage: 12,
+          xp: 9,
+          facingLeftByDefault: false
+        };
       }
     } else {
-      if (roll < 0.32) {
-        cfg = { key: Math.random() > 0.45 ? 'catOrange' : 'catGray', radius: 9, speed: 95, hp: 19 * diff, damage: 8, xp: 4 };
-      } else if (roll < 0.65) {
-        cfg = { key: 'thief', radius: 11, speed: 70, hp: 34 * diff, damage: 11, xp: 6 };
-      } else if (roll < 0.87) {
-        cfg = { key: 'logistics', radius: 12, speed: 53, hp: 52 * diff, damage: 14, xp: 9 };
+      if (roll < 0.22) {
+        cfg = {
+          key: Math.random() > 0.45 ? 'catOrange' : 'catGray',
+          radius: 9,
+          speed: 95,
+          hp: 20 * diff,
+          damage: 8,
+          xp: 4,
+          facingLeftByDefault: true
+        };
+      } else if (roll < 0.44) {
+        cfg = {
+          key: 'mutantRat',
+          radius: 10,
+          speed: 89,
+          hp: 30 * diff,
+          damage: 9,
+          xp: 6,
+          facingLeftByDefault: true
+        };
+      } else if (roll < 0.66) {
+        cfg = {
+          key: 'thief',
+          radius: 11,
+          speed: 70,
+          hp: 36 * diff,
+          damage: 11,
+          xp: 6,
+          facingLeftByDefault: false
+        };
+      } else if (roll < 0.85) {
+        cfg = {
+          key: 'logistics',
+          radius: 12,
+          speed: 54,
+          hp: 54 * diff,
+          damage: 14,
+          xp: 9,
+          facingLeftByDefault: false
+        };
       } else {
-        cfg = { key: 'foreman', radius: 15, speed: 40, hp: 96 * diff, damage: 18, xp: 18 };
+        cfg = {
+          key: 'foreman',
+          radius: 15,
+          speed: 41,
+          hp: 98 * diff,
+          damage: 18,
+          xp: 18,
+          facingLeftByDefault: false
+        };
       }
     }
 
-    const enemy = this.enemies.create(ex, ey, `${cfg.key}_0`).setDepth(8);
+    const enemy = this.enemies.create(ex, ey, `${cfg.key}_0`).setDepth(getEnemyDepth({ y: ey }, false));
     enemy.play(`${cfg.key}_walk`);
     enemy.body.setCircle(cfg.radius);
 
-    const hpBar = this.add.graphics().setDepth(8);
+    const hpBar = this.add.graphics().setDepth(getEnemyDepth({ y: ey }, false) + 1);
 
     enemy.setData('enemy', {
       hp: cfg.hp,
@@ -1698,6 +2131,7 @@ class SurvivorScene extends Phaser.Scene {
       damage: cfg.damage,
       xp: cfg.xp,
       isBoss: false,
+      facingLeftByDefault: Boolean(cfg.facingLeftByDefault),
       orbCd: 0,
       hpBar
     });
@@ -1713,7 +2147,7 @@ class SurvivorScene extends Phaser.Scene {
       stroke: '#000000',
       strokeThickness: 2,
       resolution: dpr
-    }).setOrigin(0.5).setDepth(50);
+    }).setOrigin(0.5).setDepth(9400);
 
     this.tweens.add({
       targets: txt,
@@ -1745,14 +2179,14 @@ class SurvivorScene extends Phaser.Scene {
     const df = st?.domoFish;
     if (!df || !df.enabled) return;
 
-    const rays = Math.max(4, df.rays || 8);
+    const rays = Math.max(4, df.rays || 4);
     const step = (Math.PI * 2) / rays;
     const offset = df.ringOffset || 0;
     const finalDmg = Math.max(1, Math.round(df.baseDamage * (st.globalDamageMult || 1)));
 
     for (let i = 0; i < rays; i++) {
       const angle = offset + i * step;
-      const proj = this.projectiles.create(this.player.x, this.player.y - 8, 'domo_laser').setDepth(11);
+      const proj = this.projectiles.create(this.player.x, this.player.y - 8, 'domo_laser').setDepth(9200);
       proj.setRotation(angle);
       proj.setVelocity(Math.cos(angle) * df.projectileSpeed, Math.sin(angle) * df.projectileSpeed);
       proj.setData('proj', { damage: finalDmg, pierce: df.pierce, hitList: [] });
@@ -1761,6 +2195,54 @@ class SurvivorScene extends Phaser.Scene {
 
     df.ringOffset = offset + step * 0.5;
     AudioSys.novaShoot();
+  }
+
+  fireTamperAttack(st) {
+    const tp = st?.tamper;
+    if (!tp || !tp.enabled) return;
+
+    const activeEnemies = this.enemies.getChildren().filter(e => {
+      if (!e || !e.active) return false;
+      const d = e.getData('enemy');
+      return d && d.hp > 0;
+    });
+
+    if (activeEnemies.length === 0) return;
+
+    const targetCount = Math.min(activeEnemies.length, Math.max(1, tp.targets || 1));
+    const chosen = Phaser.Utils.Array.Shuffle([...activeEnemies]).slice(0, targetCount);
+    const finalDmg = Math.max(1, Math.round((tp.damage || 34) * (st.globalDamageMult || 1)));
+
+    const startX = this.player.x;
+    const startY = this.player.y - 10;
+
+    if (this.tamperFxGraphics) {
+      this.tamperFxGraphics.clear();
+      this.tamperFxGraphics.lineStyle(3, 0x38bdf8, 0.95);
+      chosen.forEach(target => {
+        if (!target || !target.active) return;
+        this.tamperFxGraphics.beginPath();
+        this.tamperFxGraphics.moveTo(startX, startY);
+        const midX = (startX + target.x) / 2 + Phaser.Math.Between(-16, 16);
+        const midY = (startY + target.y) / 2 + Phaser.Math.Between(-16, 16);
+        this.tamperFxGraphics.lineTo(midX, midY);
+        this.tamperFxGraphics.lineTo(target.x, target.y);
+        this.tamperFxGraphics.strokePath();
+        this.tamperFxGraphics.fillStyle(0xe0f2fe, 0.9);
+        this.tamperFxGraphics.fillCircle(target.x, target.y, 6);
+      });
+
+      this.time.delayedCall(120, () => {
+        if (this.tamperFxGraphics) this.tamperFxGraphics.clear();
+      });
+    }
+
+    chosen.forEach(target => {
+      if (!target || !target.active) return;
+      this.damageEnemy(target, finalDmg);
+    });
+
+    AudioSys.tamperZap();
   }
 
   onProjectileHit(proj, enemy) {
@@ -1772,6 +2254,29 @@ class SurvivorScene extends Phaser.Scene {
     this.damageEnemy(enemy, pData.damage);
     pData.pierce--;
     if (pData.pierce <= 0) proj.destroy();
+  }
+
+  onEnemyProjectileHit(player, saw) {
+    if (this.gameState !== 'PLAYING' || !saw || !saw.active) return;
+    const st = player.getData('stats');
+    const pData = saw.getData('enemyProj');
+    if (!st || !pData) return;
+
+    const dmg = getReducedDamage(st, pData.damage || 18);
+    saw.destroy();
+
+    if (st.invulnTimer > 0) return;
+
+    st.hp -= dmg;
+    st.invulnTimer = 0.5;
+    this.cameras.main.shake(150, 0.012);
+    AudioSys.hurt();
+    this.addFloatingText(player.x, player.y - 22, `-${dmg}`, '#ef4444');
+
+    if (st.hp <= 0) {
+      st.hp = 0;
+      this.endGame();
+    }
   }
 
   damageEnemy(enemy, dmg) {
@@ -1805,20 +2310,20 @@ class SurvivorScene extends Phaser.Scene {
       let gemKey = 'bolt';
       let val = eData.xp;
 
-      if (r < 0.035) {
+      if (r < 0.014) {
         gemKey = 'medkit';
         val = 0;
-      } else if (r < 0.055) {
+      } else if (r < 0.022) {
         gemKey = 'magnet_drop';
         val = 0;
-      } else if (r < 0.070) {
+      } else if (r < 0.025) {
         gemKey = 'bomb_drop';
         val = 0;
       } else if (eData.xp >= 15 || eData.isBoss) {
         gemKey = 'battery';
       }
 
-      const gem = this.gems.create(enemy.x, enemy.y, gemKey).setDepth(6);
+      const gem = this.gems.create(enemy.x, enemy.y, gemKey).setDepth(Math.round(enemy.y + 1995));
       gem.setData('gem', { type: gemKey, value: val });
       enemy.destroy();
     }
@@ -1830,11 +2335,12 @@ class SurvivorScene extends Phaser.Scene {
     const eData = enemy.getData('enemy');
     if (!st || !eData || st.invulnTimer > 0) return;
 
-    st.hp -= eData.damage;
+    const dmg = getReducedDamage(st, eData.damage);
+    st.hp -= dmg;
     st.invulnTimer = 0.5;
     this.cameras.main.shake(150, 0.01);
     AudioSys.hurt();
-    this.addFloatingText(player.x, player.y - 22, `-${eData.damage}`, '#ef4444');
+    this.addFloatingText(player.x, player.y - 22, `-${dmg}`, '#ef4444');
 
     if (st.hp <= 0) {
       st.hp = 0;
@@ -1877,18 +2383,30 @@ class SurvivorScene extends Phaser.Scene {
     const panel = document.querySelector('#levelup-screen .thermal-panel');
     if (!panel) return;
 
+    this._lastThermalDims = { finalW, finalH, finalY };
+
     const canvasRect = this.sys.game.canvas.getBoundingClientRect();
     const viewW = this.scale.width || 854;
     const viewH = this.scale.height || 480;
     const scaleX = canvasRect.width / viewW;
     const scaleY = canvasRect.height / viewH;
 
-    const isCompact = window.innerHeight <= 500;
-    const topFactor = isCompact ? 0.44 : 0.16;
+    const isCompact = window.innerHeight <= 500 || canvasRect.height <= 420;
+    const topFactor = isCompact ? 0.56 : 0.34;
+    const bottomFactor = isCompact ? 0.36 : 0.44;
+    const minTopSafePx = canvasRect.top + Math.max(48, canvasRect.height * (isCompact ? 0.13 : 0.14));
+    const maxBottomSafePx = canvasRect.bottom - Math.max(8, canvasRect.height * 0.025);
+
     const graphicTopPx = canvasRect.top + (finalY - finalH * topFactor) * scaleY;
-    const graphicBottomPx = canvasRect.bottom - Math.max(6, (viewH - (finalY + finalH * 0.46)) * scaleY);
-    const availableCenterYPx = (graphicTopPx + graphicBottomPx) / 2;
-    const availableWidthPx = Math.min(540, Math.max(260, finalW * (isCompact ? 0.88 : 0.78) * scaleX));
+    const graphicBottomPx = canvasRect.top + (finalY + finalH * bottomFactor) * scaleY;
+
+    const clampedTopPx = Math.max(minTopSafePx, graphicTopPx);
+    const clampedBottomPx = Math.min(maxBottomSafePx, Math.max(clampedTopPx + 120, graphicBottomPx));
+    const availableCenterYPx = (clampedTopPx + clampedBottomPx) / 2;
+    const maxBoxHeightPx = Math.max(120, clampedBottomPx - clampedTopPx);
+
+    const widthRatio = isCompact ? 0.86 : 0.78;
+    const availableWidthPx = Math.min(540, Math.max(250, finalW * widthRatio * scaleX));
 
     panel.style.position = 'fixed';
     panel.style.left = `${Math.round(canvasRect.left + (this.scale.width / 2) * scaleX)}px`;
@@ -1896,9 +2414,11 @@ class SurvivorScene extends Phaser.Scene {
     panel.style.transform = 'translate(-50%, -50%)';
     panel.style.marginTop = '0px';
     panel.style.width = `${Math.round(availableWidthPx)}px`;
-    panel.style.maxWidth = '94vw';
+    panel.style.maxWidth = '92vw';
+    panel.style.maxHeight = `${Math.round(maxBoxHeightPx)}px`;
+    panel.style.overflowY = 'auto';
   }
-  
+
   createThermalPaperGraphic(centerX, targetY, width, height) {
     this.hideThermalPaperGraphic();
 
@@ -2007,14 +2527,7 @@ class SurvivorScene extends Phaser.Scene {
     const allOptionButtons = [];
 
     pool.forEach((upg, idx) => {
-      let tagText = 'ELEGIR';
-      if (upg.id === 'domofish360') {
-        tagText = st.domoFish?.level > 0 ? `NV.${st.domoFish.level + 1}` : 'NUEVO';
-      } else if (upg.id === 'global_damage' || upg.id === 'global_firerate') {
-        tagText = 'GLOBAL';
-      } else if (upg.id === 'drone_speed' || upg.id === 'orbital') {
-        tagText = 'DRON';
-      }
+      const tagText = getUpgradeTagLabel(upg, st);
 
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -2033,8 +2546,10 @@ class SurvivorScene extends Phaser.Scene {
         e.stopPropagation();
         if (btn.disabled || this.gameState !== 'LEVELUP') return;
         allOptionButtons.forEach(b => { b.disabled = true; });
+        st.upgradeCounts = st.upgradeCounts || {};
+        st.upgradeCounts[upg.id] = (Number(st.upgradeCounts[upg.id]) || 0) + 1;
         upg.apply(st);
-        this.syncDrones(st.orbitals);
+        this.syncDrones(st.dronesEnabled ? st.orbitals : 0);
         this.hideThermalPaperGraphic();
         levelupScreen.classList.add('hidden');
         this.physics.resume();
@@ -2059,7 +2574,7 @@ class SurvivorScene extends Phaser.Scene {
 
   syncDrones(count) {
     while (this.drones.length < count) {
-      const drone = this.add.sprite(this.player.x, this.player.y, 'drone').setDepth(12);
+      const drone = this.add.sprite(this.player.x, this.player.y, 'drone').setDepth(9300);
       this.drones.push(drone);
     }
   }
@@ -2103,6 +2618,11 @@ class SurvivorScene extends Phaser.Scene {
 
     this.elapsedTime += dt;
     const st = this.player.getData('stats');
+
+    if (!this.wastelandBossSpawnedAt8Min && this.elapsedTime >= 480) {
+      this.wastelandBossSpawnedAt8Min = true;
+      this.spawnEnemy(true, true);
+    }
 
     if (!this.hordeTriggered && this.elapsedTime >= 270) {
       this.triggerHordeEvent();
@@ -2195,7 +2715,7 @@ class SurvivorScene extends Phaser.Scene {
 
         for (let i = 0; i < count; i++) {
           const angle = baseAngle + (i - (count - 1) / 2) * spread;
-          const proj = this.projectiles.create(this.player.x, this.player.y - 8, 'laser').setDepth(11);
+          const proj = this.projectiles.create(this.player.x, this.player.y - 8, 'laser').setDepth(9200);
           proj.setRotation(angle);
           proj.setVelocity(Math.cos(angle) * st.weapon.projectileSpeed, Math.sin(angle) * st.weapon.projectileSpeed);
           proj.setData('proj', { damage: laserDmg, pierce: st.weapon.pierce, hitList: [] });
@@ -2213,6 +2733,14 @@ class SurvivorScene extends Phaser.Scene {
       }
     }
 
+    if (st.tamper && st.tamper.enabled) {
+      st.tamper.timer -= dt;
+      if (st.tamper.timer <= 0) {
+        st.tamper.timer = (st.tamper.cooldown || 5.0) / globalRate;
+        this.fireTamperAttack(st);
+      }
+    }
+
     this.enemies.getChildren().forEach(e => {
       if (!e.active) return;
       const eData = e.getData('enemy');
@@ -2222,25 +2750,47 @@ class SurvivorScene extends Phaser.Scene {
         eData.orbCd = Math.max(0, eData.orbCd - dt);
       }
 
+      if (eData.isTolcrap) {
+        eData.sawTimer = (eData.sawTimer ?? 1.5) - dt;
+        const distToPlayer = Phaser.Math.Distance.Between(e.x, e.y, this.player.x, this.player.y);
+        if (eData.sawTimer <= 0 && distToPlayer <= 480) {
+          this.fireTolcrapSaw(e);
+          eData.sawTimer = 2.1;
+        }
+      }
+
+      if (eData.isBoss && !eData.isTolcrap) {
+        eData.purpleOrbTimer = (eData.purpleOrbTimer ?? (eData.isWastelandBoss ? 1.6 : 2.8)) - dt;
+        const distToPlayer = Phaser.Math.Distance.Between(e.x, e.y, this.player.x, this.player.y);
+        if (eData.purpleOrbTimer <= 0 && distToPlayer <= 520) {
+          this.fireWastelandBossPurpleOrbs(e);
+          eData.purpleOrbTimer = eData.isWastelandBoss ? 1.85 : 2.9;
+        }
+      }
+
       const angle = Phaser.Math.Angle.Between(e.x, e.y, this.player.x, this.player.y);
       const vx = Math.cos(angle) * eData.speed;
       const vy = Math.sin(angle) * eData.speed;
       e.setVelocity(vx, vy);
 
+      const enemyDepth = getEnemyDepth(e, Boolean(eData.isBoss));
+      e.setDepth(enemyDepth);
+
       if (eData.isTolcrap) {
         this.applyTolcrapDirectionSprite(e, vx, vy);
       } else {
-        e.setFlipX(vx < 0);
+        applyEnemyFacing(e, vx, Boolean(eData.facingLeftByDefault));
       }
 
       const hpBar = eData.hpBar;
       if (hpBar) {
+        hpBar.setDepth(enemyDepth + 1);
         hpBar.clear();
         if (!eData.isBoss && eData.hp < eData.maxHp) {
           const barWidth = 24;
           const barHeight = 4;
           const bx = e.x - barWidth / 2;
-          const by = e.y - e.height / 2 - 8;
+          const by = e.y - (e.height * e.scaleY) / 2 - 8;
 
           hpBar.fillStyle(0x000000, 0.7);
           hpBar.fillRect(bx, by, barWidth, barHeight);
@@ -2254,9 +2804,10 @@ class SurvivorScene extends Phaser.Scene {
       }
     });
 
-    if (this.drones.length > 0) {
+    if (st.dronesEnabled && this.drones.length > 0) {
       const orbitSpeed = st.droneOrbitSpeed || 2.1;
       const orbitRadius = st.droneOrbitRadius || 68;
+      const hitRadius = Math.max(22, Math.round(orbitRadius * 0.34));
       st.orbitalAngle += dt * orbitSpeed;
       const droneDmg = Math.max(1, Math.round(st.weapon.damage * 0.72 * globalDmg));
       this.drones.forEach((drone, i) => {
@@ -2266,7 +2817,7 @@ class SurvivorScene extends Phaser.Scene {
           if (!e.active) return;
           const eData = e.getData('enemy');
           if (!eData) return;
-          if (Phaser.Math.Distance.Between(drone.x, drone.y, e.x, e.y) < 22 && eData.orbCd <= 0) {
+          if (Phaser.Math.Distance.Between(drone.x, drone.y, e.x, e.y) < hitRadius && eData.orbCd <= 0) {
             this.damageEnemy(e, droneDmg);
             eData.orbCd = 0.32 / globalRate;
           }
@@ -2276,7 +2827,7 @@ class SurvivorScene extends Phaser.Scene {
 
     this.bossSpawnTimer -= dt;
     if (this.bossSpawnTimer <= 0) {
-      this.spawnEnemy(true);
+      this.spawnEnemy(true, false);
       this.bossSpawnTimer += 180;
     }
 
