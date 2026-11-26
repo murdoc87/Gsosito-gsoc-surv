@@ -865,15 +865,18 @@ function getReducedDamage(stats, rawDamage) {
 
 function activateDomoFish(p) {
   p.domoFish.enabled = true;
-  p.domoFish.level = Math.max(1, p.domoFish.level || 0);
+  p.domoFish.pickups = Math.max(1, Number(p.domoFish.pickups) || 0);
+  p.domoFish.level = Math.max(1, Number(p.domoFish.level) || 1);
   p.domoFish.rays = Math.max(4, p.domoFish.rays || 4);
   p.domoFish.baseDamage = Math.max(16, p.domoFish.baseDamage || 16);
   p.domoFish.baseCooldown = Math.min(3.2, p.domoFish.baseCooldown || 3.2);
   p.domoFish.timer = 0.05;
 }
 
-function incrementDomoFishLevel(p) {
-  p.domoFish.level = (p.domoFish.level || 1) + 1;
+function registerDomoFishUpgradePickup(p) {
+  p.domoFish.enabled = true;
+  p.domoFish.pickups = (Number(p.domoFish.pickups) || 0) + 1;
+  p.domoFish.level = p.domoFish.pickups;
 }
 
 function activateDrones(p) {
@@ -919,9 +922,9 @@ function getBasicLaserUpgradesCount(stats) {
 
 function canFuseWeapons(stats) {
   if (!stats || stats.fusionActive) return false;
-  const domoLvl = Number(stats.domoFish?.level) || 0;
+  const domoPickups = Number(stats.domoFish?.pickups) || 0;
   const basicLaserUps = getBasicLaserUpgradesCount(stats);
-  return Boolean(stats.domoFish?.enabled) && domoLvl >= 5 && basicLaserUps >= 5;
+  return Boolean(stats.domoFish?.enabled) && domoPickups >= 5 && basicLaserUps >= 5;
 }
 
 function getXpValueByTier(tier, baseEnemyXp) {
@@ -934,10 +937,6 @@ function getXpValueByTier(tier, baseEnemyXp) {
 function getUpgradeTagLabel(upg, stats) {
   if (ACTIVATOR_UPGRADE_IDS.has(upg.id)) {
     return 'ACTIVAR';
-  }
-  if (upg.id.startsWith('domofish_')) {
-    const nextDomoLvl = (Number(stats?.domoFish?.level) || 1) + 1;
-    return `DOMO NV.${nextDomoLvl}`;
   }
   const takenCount = Number(stats?.upgradeCounts?.[upg.id]) || 0;
   return `NV.${takenCount + 1}`;
@@ -993,33 +992,33 @@ const UPGRADES = [
     id: 'domofish_rays',
     icon: DOMO_ICON,
     title: 'Ráfaga Domo',
-    desc: '+2 proyectiles por anillo de Domo-Fish 360 (sube nivel Domo)',
+    desc: '+2 proyectiles por anillo de Domo-Fish 360',
     requires: (p) => Boolean(p.domoFish?.enabled) && !p.fusionActive,
     apply: (p) => {
       p.domoFish.rays = Math.min(36, (p.domoFish.rays || 4) + 2);
-      incrementDomoFishLevel(p);
+      registerDomoFishUpgradePickup(p);
     }
   },
   {
     id: 'domofish_firerate',
     icon: DOMO_ICON,
     title: 'Cadencia Domo',
-    desc: 'Aumenta la velocidad de disparo de Domo-Fish (sube nivel Domo)',
+    desc: 'Aumenta la velocidad de disparo de Domo-Fish',
     requires: (p) => Boolean(p.domoFish?.enabled) && !p.fusionActive,
     apply: (p) => {
       p.domoFish.baseCooldown = Math.max(1.1, Number((p.domoFish.baseCooldown / 1.2).toFixed(3)));
-      incrementDomoFishLevel(p);
+      registerDomoFishUpgradePickup(p);
     }
   },
   {
     id: 'domofish_damage',
     icon: DOMO_ICON,
     title: 'Potencia Domo',
-    desc: 'Aumenta el daño de los láseres de Domo-Fish (sube nivel Domo)',
+    desc: 'Aumenta el daño de los láseres de Domo-Fish',
     requires: (p) => Boolean(p.domoFish?.enabled) && !p.fusionActive,
     apply: (p) => {
       p.domoFish.baseDamage = Math.round(p.domoFish.baseDamage * 1.3);
-      incrementDomoFishLevel(p);
+      registerDomoFishUpgradePickup(p);
     }
   },
   {
@@ -1411,6 +1410,7 @@ class SurvivorScene extends Phaser.Scene {
       domoFish: {
         enabled: false,
         level: 0,
+        pickups: 0,
         rays: 4,
         baseDamage: 16,
         baseCooldown: 3.2,
@@ -4608,7 +4608,13 @@ class SurvivorScene extends Phaser.Scene {
     } else if (gData.type === 'bomb_drop') {
       this.detonateBombDrop();
     } else if (gData.type === 'magnet_drop') {
-      this.magnetPullActive = true;
+      this.magnetPullActive = false;
+      this.gems.getChildren().forEach(otherGem => {
+        if (!otherGem || !otherGem.active) return;
+        const ogData = otherGem.getData('gem');
+        if (!ogData || ogData.type === 'boss_chest') return;
+        ogData.magnetPulled = true;
+      });
       AudioSys.magnetPickup();
       this.addFloatingText(player.x, player.y - 20, '¡IMÁN ACTIVADO!', '#38bdf8');
     } else if (gData.type === 'medkit') {
@@ -5294,9 +5300,10 @@ class SurvivorScene extends Phaser.Scene {
       }
 
       const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, gem.x, gem.y);
-      const isPulling = this.magnetPullActive || dist < st.pickupRange;
+      const isMagnetPulled = Boolean(gData && gData.magnetPulled);
+      const isPulling = isMagnetPulled || dist < st.pickupRange;
       if (isPulling && dist > 1) {
-        const pullSpeed = this.magnetPullActive ? 410 : 230;
+        const pullSpeed = isMagnetPulled ? 410 : 230;
         const a = Phaser.Math.Angle.Between(gem.x, gem.y, this.player.x, this.player.y);
         gem.setVelocity(Math.cos(a) * pullSpeed, Math.sin(a) * pullSpeed);
       } else {
