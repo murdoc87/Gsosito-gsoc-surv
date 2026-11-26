@@ -3009,6 +3009,7 @@ class SurvivorScene extends Phaser.Scene {
       closeUpgradesBtn.onclick = (e) => {
         e.stopPropagation();
         if (upgradesModal) upgradesModal.classList.add('hidden');
+        document.body.classList.remove('shop-modal-open');
         refreshMenuChatarraUI();
       };
     }
@@ -3252,6 +3253,7 @@ class SurvivorScene extends Phaser.Scene {
     if (!upgradesModal || !shopUpgradesList) return;
     this.renderShopUpgrades();
     upgradesModal.classList.remove('hidden');
+    document.body.classList.add('shop-modal-open');
   }
 
   renderShopUpgrades() {
@@ -3414,6 +3416,7 @@ class SurvivorScene extends Phaser.Scene {
     this.hideThermalPaperGraphic();
     levelupScreen.classList.add('hidden');
     if (upgradesModal) upgradesModal.classList.add('hidden');
+    document.body.classList.remove('shop-modal-open');
     if (charactersModal) charactersModal.classList.add('hidden');
     startScreen.classList.remove('hidden');
     this.gameState = 'MENU';
