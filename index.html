@@ -14,7 +14,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 		<title>Gsosito Survivor — CRA Operator Edition</title>
-		<link rel="stylesheet" href="css/style.css?v=4">
+		<link rel="stylesheet" href="css/style.css?v=5">
 	</head>
 	<body>
 
@@ -233,15 +233,15 @@
 		}
 
 		#levelup-screen .thermal-panel {
-		  width: min(500px, 90vw);
-		  max-height: 76dvh;
+		  width: min(640px, 92vw);
+		  max-height: 78dvh;
 		  overflow-y: auto;
 		  -webkit-overflow-scrolling: touch;
 		  background: transparent;
 		  border: none;
 		  box-shadow: none;
 		  padding: 0;
-		  margin-top: 22px;
+		  margin-top: 14px;
 		  pointer-events: auto;
 		  z-index: 60;
 		}
@@ -253,13 +253,13 @@
 		  margin: 0 auto;
 		  box-sizing: border-box;
 		  overflow-x: hidden;
-		  background: rgba(248, 250, 252, 0.86);
+		  background: rgba(248, 250, 252, 0.90);
 		  color: #18181b;
 		  font-family: 'Silkscreen', 'Courier New', monospace;
-		  padding: 12px 16px 14px;
-		  border-radius: 3px;
+		  padding: 10px 14px 11px;
+		  border-radius: 4px;
 		  border-top: 3px dashed #94a3b8;
-		  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+		  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
 		  text-align: left;
 		  pointer-events: auto;
 		}
@@ -267,40 +267,42 @@
 		#levelup-screen .thermal-header {
 		  text-align: center;
 		  border-bottom: 1.5px dashed #64748b;
-		  padding-bottom: 8px;
-		  margin-bottom: 10px;
+		  padding-bottom: 6px;
+		  margin-bottom: 8px;
 		}
 
 		#levelup-screen .thermal-brand {
-		  font-size: clamp(11px, 2vw, 14px);
+		  font-size: clamp(11px, 1.9vw, 13.5px);
 		  font-weight: 700;
 		  color: #090d16;
 		  letter-spacing: 0.4px;
 		}
 
 		#levelup-screen .thermal-meta {
-		  font-size: 10px;
+		  font-size: 9.5px;
 		  color: #334155;
-		  margin-top: 3px;
+		  margin-top: 2px;
 		}
 
 		#levelup-screen .thermal-items {
-		  display: flex;
-		  flex-direction: column;
-		  gap: 11px;
+		  display: grid;
+		  grid-template-columns: repeat(2, minmax(0, 1fr));
+		  gap: 8px;
 		}
 
 		#levelup-screen .thermal-option {
 		  display: flex;
-		  align-items: center;
+		  flex-direction: column;
 		  justify-content: space-between;
-		  gap: 8px;
+		  align-items: stretch;
+		  gap: 5px;
 		  width: 100%;
+		  min-height: 0;
 		  box-sizing: border-box;
-		  background: rgba(255, 255, 255, 0.84);
+		  background: rgba(255, 255, 255, 0.88);
 		  border: 1.5px dashed #64748b;
 		  border-radius: 5px;
-		  padding: 11px 12px;
+		  padding: 8px 10px;
 		  color: #0f172a;
 		  font-family: inherit;
 		  text-align: left;
@@ -318,50 +320,52 @@
 		  transform: translateY(-1px);
 		}
 
+		#levelup-screen .thermal-option-top {
+		  display: flex;
+		  align-items: center;
+		  justify-content: space-between;
+		  gap: 6px;
+		  min-width: 0;
+		}
+
 		#levelup-screen .thermal-option-main {
 		  display: flex;
 		  align-items: center;
-		  gap: 10px;
-		  min-width: 0;
-		  flex: 1 1 auto;
-		}
-
-		#levelup-screen .thermal-option-main > div {
+		  gap: 7px;
 		  min-width: 0;
 		  flex: 1 1 auto;
 		}
 
 		#levelup-screen .thermal-icon {
-		  font-size: 20px;
+		  font-size: 17px;
 		  line-height: 1;
 		  flex-shrink: 0;
 		}
 
 		#levelup-screen .thermal-title {
-		  font-size: 12px;
+		  font-size: 11px;
 		  font-weight: 700;
 		  color: #090d16;
-		  line-height: 1.25;
+		  line-height: 1.2;
 		  overflow-wrap: anywhere;
 		}
 
 		#levelup-screen .thermal-desc {
 		  font-family: 'Chakra Petch', sans-serif;
-		  font-size: 12px;
+		  font-size: 11px;
 		  font-weight: 600;
 		  color: #334155;
-		  line-height: 1.25;
-		  margin-top: 2px;
+		  line-height: 1.2;
 		  overflow-wrap: anywhere;
 		}
 
 		#levelup-screen .thermal-tag {
 		  flex-shrink: 0;
-		  font-size: 9px;
+		  font-size: 8.5px;
 		  font-weight: 700;
 		  color: #f8fafc;
 		  background: #1e293b;
-		  padding: 4px 6px;
+		  padding: 2.5px 5px;
 		  border-radius: 3px;
 		  white-space: nowrap;
 		}
@@ -370,68 +374,75 @@
 		  display: flex;
 		  justify-content: space-between;
 		  border-top: 1.5px dashed #64748b;
-		  margin-top: 10px;
-		  padding-top: 7px;
-		  font-size: 9.5px;
+		  margin-top: 8px;
+		  padding-top: 5px;
+		  font-size: 9px;
 		  color: #334155;
 		}
 
 		@media (max-width: 950px) and (max-height: 500px) {
 		  #levelup-screen .thermal-panel {
-		    width: min(460px, 88vw);
-		    max-height: 76dvh;
+		    width: min(580px, 90vw);
+		    max-height: 78dvh;
 		    margin-top: 0;
 		  }
 
 		  #levelup-screen .thermal-ticket {
-		    padding: 7px 10px 8px;
+		    padding: 5px 8px 6px;
 		  }
 
 		  #levelup-screen .thermal-header {
-		    padding-bottom: 4px;
-		    margin-bottom: 5px;
+		    padding-bottom: 3px;
+		    margin-bottom: 4px;
 		  }
 
 		  #levelup-screen .thermal-brand {
-		    font-size: 10px;
+		    font-size: 9.5px;
 		  }
 
 		  #levelup-screen .thermal-meta {
-		    font-size: 8.5px;
+		    font-size: 8px;
+		    margin-top: 1px;
 		  }
 
 		  #levelup-screen .thermal-items {
-		    gap: 5px;
+		    grid-template-columns: repeat(2, minmax(0, 1fr));
+		    gap: 4px 6px;
 		  }
 
 		  #levelup-screen .thermal-option {
-		    padding: 6px 8px;
-		    gap: 6px;
+		    padding: 4px 6px;
+		    gap: 2px;
+		    border-radius: 4px;
+		  }
+
+		  #levelup-screen .thermal-option-main {
+		    gap: 5px;
 		  }
 
 		  #levelup-screen .thermal-icon {
-		    font-size: 15px;
+		    font-size: 13px;
 		  }
 
 		  #levelup-screen .thermal-title {
-		    font-size: 10px;
-		    line-height: 1.15;
+		    font-size: 9px;
+		    line-height: 1.1;
 		  }
 
 		  #levelup-screen .thermal-desc {
-		    font-size: 10px;
-		    line-height: 1.15;
+		    font-size: 9px;
+		    line-height: 1.1;
 		  }
 
 		  #levelup-screen .thermal-tag {
-		    font-size: 8px;
-		    padding: 3px 5px;
+		    font-size: 7.5px;
+		    padding: 1.5px 4px;
 		  }
 
 		  #levelup-screen .thermal-footer {
-		    margin-top: 5px;
-		    padding-top: 4px;
-		    font-size: 8px;
+		    margin-top: 4px;
+		    padding-top: 3px;
+		    font-size: 7.5px;
 		  }
 		}
 
@@ -498,6 +509,6 @@
 
 		<div id="ios-fs-toast" class="hidden"></div>
 
-		<script type="module" src="js/game.js?v=4"></script>
+		<script type="module" src="js/game.js?v=5"></script>
 	</body>
 </html>

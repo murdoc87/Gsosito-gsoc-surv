@@ -3987,7 +3987,7 @@ class SurvivorScene extends Phaser.Scene {
           key: 'forklift',
           radius: 14,
           scale: 2,
-          speed: 120,
+          speed: 103,
           hp: 96 * diff * hpScale,
           damage: 18,
           xp: 15,
@@ -4077,7 +4077,7 @@ class SurvivorScene extends Phaser.Scene {
           key: 'forklift',
           radius: 14,
           scale: 2,
-          speed: 126,
+          speed: 108,
           hp: 136 * diff * hpScale,
           damage: 21,
           xp: 18,
@@ -4647,21 +4647,21 @@ class SurvivorScene extends Phaser.Scene {
     const scaleY = canvasRect.height / viewH;
 
     const isCompact = window.innerHeight <= 500 || canvasRect.height <= 420;
-    const topFactor = isCompact ? 0.23 : 0.34;
-    const bottomFactor = isCompact ? 0.45 : 0.44;
-    const minTopSafePx = canvasRect.top + Math.max(46, canvasRect.height * (isCompact ? 0.22 : 0.14));
+    const topFactor = isCompact ? 0.21 : 0.32;
+    const bottomFactor = isCompact ? 0.47 : 0.45;
+    const minTopSafePx = canvasRect.top + Math.max(44, canvasRect.height * (isCompact ? 0.20 : 0.13));
     const maxBottomSafePx = canvasRect.bottom - Math.max(6, canvasRect.height * 0.02);
 
     const graphicTopPx = canvasRect.top + (finalY - finalH * topFactor) * scaleY;
     const graphicBottomPx = canvasRect.top + (finalY + finalH * bottomFactor) * scaleY;
 
     const clampedTopPx = Math.max(minTopSafePx, graphicTopPx);
-    const clampedBottomPx = Math.min(maxBottomSafePx, Math.max(clampedTopPx + 110, graphicBottomPx));
+    const clampedBottomPx = Math.min(maxBottomSafePx, Math.max(clampedTopPx + 116, graphicBottomPx));
     const availableCenterYPx = (clampedTopPx + clampedBottomPx) / 2;
-    const maxBoxHeightPx = Math.max(110, clampedBottomPx - clampedTopPx);
+    const maxBoxHeightPx = Math.max(116, clampedBottomPx - clampedTopPx);
 
-    const widthRatio = isCompact ? 0.72 : 0.78;
-    const availableWidthPx = Math.min(540, Math.max(240, finalW * widthRatio * scaleX));
+    const widthRatio = isCompact ? 0.92 : 0.90;
+    const availableWidthPx = Math.min(680, Math.max(280, Math.max(finalW * widthRatio * scaleX, canvasRect.width * (isCompact ? 0.78 : 0.66))));
 
     panel.style.position = 'fixed';
     panel.style.left = `${Math.round(canvasRect.left + (this.scale.width / 2) * scaleX)}px`;
@@ -4800,14 +4800,14 @@ class SurvivorScene extends Phaser.Scene {
       btn.type = 'button';
       btn.className = 'thermal-option';
       btn.innerHTML = `
-        <div class="thermal-option-main">
-          <span class="thermal-icon">${upg.icon}</span>
-          <div>
+        <div class="thermal-option-top">
+          <div class="thermal-option-main">
+            <span class="thermal-icon">${upg.icon}</span>
             <div class="thermal-title">0${idx + 1}. ${upg.title}</div>
-            <div class="thermal-desc">${upg.desc}</div>
           </div>
+          <span class="thermal-tag">${tagText}</span>
         </div>
-        <span class="thermal-tag">${tagText}</span>
+        <div class="thermal-desc">${upg.desc}</div>
       `;
       btn.onclick = (e) => {
         e.stopPropagation();
@@ -5112,15 +5112,22 @@ class SurvivorScene extends Phaser.Scene {
           ));
 
         if (nearbyEnemies.length > 0) {
-          const target = nearbyEnemies[0];
-          const baseAngle = Phaser.Math.Angle.Between(this.player.x, this.player.y - 8, target.x, target.y);
-          this.player.setFlipX(Math.cos(baseAngle) < 0);
+          const primaryTarget = nearbyEnemies[0];
+          const primaryAngle = Phaser.Math.Angle.Between(this.player.x, this.player.y - 8, primaryTarget.x, primaryTarget.y);
+          this.player.setFlipX(Math.cos(primaryAngle) < 0);
           const count = st.weapon.projectileCount;
           const spread = 0.14;
           const finalLaserDmg = Math.max(1, Math.round(st.weapon.damage * globalDmg));
 
           for (let i = 0; i < count; i++) {
-            const angle = baseAngle + (i - (count - 1) / 2) * spread;
+            let angle;
+            if (i < nearbyEnemies.length) {
+              const assignedEnemy = nearbyEnemies[i];
+              angle = Phaser.Math.Angle.Between(this.player.x, this.player.y - 8, assignedEnemy.x, assignedEnemy.y);
+            } else {
+              const overflowIdx = i - nearbyEnemies.length;
+              angle = primaryAngle + (overflowIdx + 1) * spread * (overflowIdx % 2 === 0 ? 1 : -1);
+            }
             const proj = this.projectiles.create(this.player.x, this.player.y - 8, 'laser').setDepth(getWorldEntityDepth(this.player.y, 6000));
             proj.setRotation(angle);
             proj.setVelocity(Math.cos(angle) * st.weapon.projectileSpeed, Math.sin(angle) * st.weapon.projectileSpeed);
