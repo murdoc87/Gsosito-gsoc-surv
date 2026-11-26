@@ -43,7 +43,7 @@ html, body {
   position: fixed;
   inset: 0;
   background: radial-gradient(circle at center, #181c26 0%, #090b0f 100%);
-  z-index: 100;
+  z-index: 160;
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -298,5 +298,400 @@ h1.game-title {
     padding: 6px 12px !important;
     font-size: 11.5px !important;
     border-radius: 6px !important;
+  }
+}
+
+/* Tienda de Mejoras estilo Máquina Expendedora + Inspector */
+.upgrades-vending-panel {
+  width: min(860px, 95vw);
+  max-height: 90dvh;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(9, 13, 22, 0.98) 100%);
+  border: 2px solid #475569;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  text-align: left;
+}
+
+.vending-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid rgba(148, 163, 184, 0.25);
+}
+
+.vending-heading h2 {
+  font-size: clamp(16px, 2.2vw, 20px);
+  color: #facc15;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.vending-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vending-balance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(11, 15, 23, 0.95);
+  border: 2px solid #facc15;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: 'Silkscreen', monospace;
+  font-size: 13px;
+  color: #facc15;
+  box-shadow: 0 3px 0 #713f12;
+}
+
+.vending-close-btn {
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+  line-height: 1;
+}
+
+.vending-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.05fr) minmax(250px, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.vending-inspector {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(165deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #64748b;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 6px 0 #020617, inset 0 0 24px rgba(0, 0, 0, 0.45);
+}
+
+.vending-inspector-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vending-inspector-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  background: radial-gradient(circle at 35% 30%, #334155, #090d16);
+  border: 2px solid #facc15;
+  border-radius: 10px;
+  box-shadow: 0 4px 0 #020617;
+}
+
+.vending-inspector-title {
+  font-family: 'Silkscreen', monospace;
+  font-size: 14px;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.vending-inspector-level {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #facc15;
+  letter-spacing: 0.4px;
+}
+
+.vending-inspector-desc {
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.35;
+}
+
+.vending-inspector-stat {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(2, 6, 23, 0.65);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  border-radius: 6px;
+  padding: 6px 9px;
+}
+
+.vending-cost-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(9, 13, 22, 0.8);
+  color: #fde047;
+  border: 1px dashed rgba(250, 204, 21, 0.55);
+  border-left: 4px solid #facc15;
+  border-radius: 7px;
+  padding: 7px 12px;
+  margin: 10px 0 6px 0;
+  font-family: 'Silkscreen', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  cursor: default;
+  user-select: none;
+}
+
+.vending-buy-btn {
+  width: 100%;
+  padding: 11px 16px !important;
+}
+
+.vending-buy-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.45);
+}
+
+.vending-machine {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  justify-self: center;
+  aspect-ratio: 375 / 500;
+  background-color: #7f1d1d;
+  background-image: var(--vending-machine-art, url('../img/vending_machine.png'));
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  padding-top: 19%;
+  padding-bottom: 18%;
+  padding-left: 5%;
+  padding-right: 21%;
+  box-sizing: border-box;
+}
+
+.vending-machine-header {
+  display: none !important;
+}
+
+.vending-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.vending-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  padding: 5px 3px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border: 2px solid #475569;
+  border-radius: 8px;
+  color: #f8fafc;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  transition: background-color 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease;
+  box-sizing: border-box;
+}
+
+.vending-slot:hover {
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.vending-slot.is-selected {
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.98) 0%, rgba(23, 37, 84, 0.98) 100%);
+  border: 2px solid #facc15;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.55), inset 0 0 8px rgba(250, 204, 21, 0.25);
+}
+
+.vending-slot-icon {
+  font-size: 19px;
+  line-height: 1.1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.85));
+}
+
+.vending-slot-name {
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+  color: #ffffff;
+  text-shadow: 0 1px 3px #000000;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vending-slot-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(9, 13, 20, 0.95);
+  border: 1px solid #facc15;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: 'Silkscreen', monospace;
+  font-size: 9px;
+  color: #facc15;
+}
+
+.vending-slot-price.is-max {
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+/* Fuegos artificiales y ticket raro de 4 mejoras */
+#levelup-screen .thermal-ticket.is-fireworks {
+  border-top-color: #eab308;
+  box-shadow: 0 0 26px rgba(250, 204, 21, 0.55), 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+#levelup-screen .thermal-ticket.is-fireworks .thermal-items {
+  gap: 8px;
+}
+
+#levelup-screen .thermal-ticket.is-fireworks .thermal-option {
+  padding: 8px 11px;
+}
+
+@media (max-width: 680px) {
+  .vending-layout {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 950px) and (max-height: 500px) {
+  .upgrades-vending-panel {
+    padding: 8px 10px;
+    max-height: 94dvh;
+    width: 96vw;
+  }
+
+  .vending-topbar {
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+  }
+
+  .vending-heading .title-badge {
+    display: none;
+  }
+
+  .vending-heading h2 {
+    font-size: 14px;
+  }
+
+  .vending-balance-badge {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .vending-close-btn {
+    padding: 4px 9px !important;
+    font-size: 11px !important;
+  }
+
+  .vending-layout {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 8px;
+  }
+
+  .vending-inspector {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .vending-inspector-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .vending-inspector-title {
+    font-size: 11px;
+  }
+
+  .vending-inspector-desc {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .vending-inspector-stat {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+
+  .vending-cost-banner {
+    padding: 4px 8px;
+    margin: 4px 0 2px 0;
+    font-size: 10.5px;
+  }
+
+  .vending-buy-btn {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+  }
+
+  .vending-machine {
+    max-width: 245px;
+    padding-top: 17.5%;
+    padding-bottom: 16.5%;
+    padding-left: 5%;
+    padding-right: 21%;
+    gap: 0;
+  }
+
+  .vending-grid {
+    gap: 4px;
+    padding: 2px;
+  }
+
+  .vending-slot {
+    aspect-ratio: 1 / 1;
+    min-height: 0;
+    padding: 3px 2px;
+    gap: 1px;
+  }
+
+  .vending-slot-icon {
+    font-size: 14px;
+  }
+
+  .vending-slot-name {
+    font-size: 7.5px;
+  }
+
+  .vending-slot-price {
+    font-size: 7.5px;
+    padding: 1px 3px;
   }
 }
