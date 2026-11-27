@@ -14,7 +14,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 		<title>Gsosito Survivor — CRA Operator Edition</title>
-		<link rel="stylesheet" href="css/style.css?v=5">
+		<link rel="stylesheet" href="css/style.css?v=8">
 	</head>
 	<body>
 
@@ -31,37 +31,9 @@
 		</div>
 
 		<!-- Menú Principal -->
-		<div id="start-screen" class="overlay" style="
-		  position: fixed;
-		  inset: 0;
-		  background-color: #0b0f17;
-		  background-image: url('img/cover.jpg');
-		  background-size: cover;
-		  background-repeat: no-repeat;
-		  background-position: center;
-		  z-index: 50;
-		  display: flex;
-		  flex-direction: column;
-		  justify-content: flex-end;
-		  align-items: flex-start;
-		  padding: 40px;
-		  overflow: hidden;
-		  pointer-events: auto;
-		">
+		<div id="start-screen" class="overlay">
 
-		  <div class="menu-panel" style="
-		    position: relative;
-		    z-index: 2;
-		    background: rgba(11, 15, 23, 0.9);
-		    border: 2px solid #334155;
-		    padding: 24px;
-		    border-radius: 8px;
-		    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-		    max-width: 420px;
-		    width: 100%;
-		    text-align: left;
-		    pointer-events: auto;
-		  ">
+		  <div class="menu-panel">
 
 		    <div class="title-badge">Edición CRA · Operación Sector 7</div>
 		    <h1 class="game-title">GSOSITO<br>SURVIVOR</h1>
@@ -70,16 +42,16 @@
 		      y sobrevive a las oleadas del sector.
 		    </p>
 
-		    <div id="menu-chapas-box" style="display:flex;align-items:center;gap:8px;margin-bottom:14px;font-family:'Silkscreen',monospace;font-size:13px;color:#facc15;">
+		    <div id="menu-chapas-box">
 		      <img src="img/chapa.png" alt="Chatarra" width="16" height="16" style="image-rendering:pixelated;">
 		      <span>CHATARRA: <strong id="menu-chapas-val">0</strong></span>
 		    </div>
 
-		    <div class="menu-buttons-col" style="display: flex; flex-direction: column; gap: 10px; pointer-events: auto;">
-		      <button id="start-btn" class="action-btn" style="width: 100%; pointer-events: auto; touch-action: manipulation;">Empezar turno</button>
-		      <button id="upgrades-btn" class="secondary-btn" style="width: 100%; pointer-events: auto; touch-action: manipulation;">Mejoras</button>
-		      <button id="characters-btn" class="secondary-btn" style="width: 100%; pointer-events: auto; touch-action: manipulation;">Personajes</button>
-		      <button id="options-btn" class="secondary-btn" style="width: 100%; pointer-events: auto; touch-action: manipulation;">Opciones</button>
+		    <div class="menu-buttons-col">
+		      <button id="start-btn" class="action-btn">Empezar turno</button>
+		      <button id="upgrades-btn" class="secondary-btn">Mejoras</button>
+		      <button id="characters-btn" class="secondary-btn">Personajes</button>
+		      <button id="options-btn" class="secondary-btn">Opciones</button>
 		    </div>
 
 		  </div>
@@ -153,7 +125,7 @@
 					<p>• <strong>Disparo:</strong> Automático hacia los objetivos más cercanos.</p>
 				</div>
 
-				<div style="border-top: 1px solid rgba(148, 163, 184, 0.25); padding-top: 12px; margin-bottom: 14px;">
+				<div class="reset-data-box" style="border-top: 1px solid rgba(148, 163, 184, 0.25); padding-top: 12px; margin-bottom: 14px;">
 					<div style="font-size: 12px; font-weight: 700; color: #f87171; margin-bottom: 6px; text-transform: uppercase;">Zona de datos guardados</div>
 					<button id="reset-data-btn" type="button" class="secondary-btn" style="width: 100%; border-color: rgba(239, 68, 68, 0.55); color: #fca5a5;">
 						🗑️ Borrar chatarra y mejoras
@@ -226,281 +198,6 @@
 			</div>
 		</div>
 
-		<style>
-		#levelup-screen {
-		  background: rgba(8, 10, 15, 0.55) !important;
-		  backdrop-filter: blur(2px);
-		}
-
-		#levelup-screen .thermal-panel {
-		  width: min(640px, 92vw);
-		  max-height: 78dvh;
-		  overflow-y: auto;
-		  -webkit-overflow-scrolling: touch;
-		  background: transparent;
-		  border: none;
-		  box-shadow: none;
-		  padding: 0;
-		  margin-top: 14px;
-		  pointer-events: auto;
-		  z-index: 60;
-		}
-
-		#levelup-screen .thermal-ticket {
-		  position: relative;
-		  width: 100%;
-		  max-width: 100%;
-		  margin: 0 auto;
-		  box-sizing: border-box;
-		  overflow-x: hidden;
-		  background: rgba(248, 250, 252, 0.90);
-		  color: #18181b;
-		  font-family: 'Silkscreen', 'Courier New', monospace;
-		  padding: 10px 14px 11px;
-		  border-radius: 4px;
-		  border-top: 3px dashed #94a3b8;
-		  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
-		  text-align: left;
-		  pointer-events: auto;
-		}
-
-		#levelup-screen .thermal-header {
-		  text-align: center;
-		  border-bottom: 1.5px dashed #64748b;
-		  padding-bottom: 6px;
-		  margin-bottom: 8px;
-		}
-
-		#levelup-screen .thermal-brand {
-		  font-size: clamp(11px, 1.9vw, 13.5px);
-		  font-weight: 700;
-		  color: #090d16;
-		  letter-spacing: 0.4px;
-		}
-
-		#levelup-screen .thermal-meta {
-		  font-size: 9.5px;
-		  color: #334155;
-		  margin-top: 2px;
-		}
-
-		#levelup-screen .thermal-items {
-		  display: grid;
-		  grid-template-columns: repeat(2, minmax(0, 1fr));
-		  gap: 8px;
-		}
-
-		#levelup-screen .thermal-option {
-		  display: flex;
-		  flex-direction: column;
-		  justify-content: space-between;
-		  align-items: stretch;
-		  gap: 5px;
-		  width: 100%;
-		  min-height: 0;
-		  box-sizing: border-box;
-		  background: rgba(255, 255, 255, 0.88);
-		  border: 1.5px dashed #64748b;
-		  border-radius: 5px;
-		  padding: 8px 10px;
-		  color: #0f172a;
-		  font-family: inherit;
-		  text-align: left;
-		  cursor: pointer;
-		  pointer-events: auto;
-		  touch-action: manipulation;
-		  transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.08s ease;
-		}
-
-		#levelup-screen .thermal-option:hover,
-		#levelup-screen .thermal-option:active {
-		  background: rgba(254, 240, 138, 0.96);
-		  border-style: solid;
-		  border-color: #ca8a04;
-		  transform: translateY(-1px);
-		}
-
-		#levelup-screen .thermal-option-top {
-		  display: flex;
-		  align-items: center;
-		  justify-content: space-between;
-		  gap: 6px;
-		  min-width: 0;
-		}
-
-		#levelup-screen .thermal-option-main {
-		  display: flex;
-		  align-items: center;
-		  gap: 7px;
-		  min-width: 0;
-		  flex: 1 1 auto;
-		}
-
-		#levelup-screen .thermal-icon {
-		  font-size: 17px;
-		  line-height: 1;
-		  flex-shrink: 0;
-		}
-
-		#levelup-screen .thermal-title {
-		  font-size: 11px;
-		  font-weight: 700;
-		  color: #090d16;
-		  line-height: 1.2;
-		  overflow-wrap: anywhere;
-		}
-
-		#levelup-screen .thermal-desc {
-		  font-family: 'Chakra Petch', sans-serif;
-		  font-size: 11px;
-		  font-weight: 600;
-		  color: #334155;
-		  line-height: 1.2;
-		  overflow-wrap: anywhere;
-		}
-
-		#levelup-screen .thermal-tag {
-		  flex-shrink: 0;
-		  font-size: 8.5px;
-		  font-weight: 700;
-		  color: #f8fafc;
-		  background: #1e293b;
-		  padding: 2.5px 5px;
-		  border-radius: 3px;
-		  white-space: nowrap;
-		}
-
-		#levelup-screen .thermal-footer {
-		  display: flex;
-		  justify-content: space-between;
-		  border-top: 1.5px dashed #64748b;
-		  margin-top: 8px;
-		  padding-top: 5px;
-		  font-size: 9px;
-		  color: #334155;
-		}
-
-		@media (max-width: 950px) and (max-height: 500px) {
-		  #levelup-screen .thermal-panel {
-		    width: min(580px, 90vw);
-		    max-height: 78dvh;
-		    margin-top: 0;
-		  }
-
-		  #levelup-screen .thermal-ticket {
-		    padding: 5px 8px 6px;
-		  }
-
-		  #levelup-screen .thermal-header {
-		    padding-bottom: 3px;
-		    margin-bottom: 4px;
-		  }
-
-		  #levelup-screen .thermal-brand {
-		    font-size: 9.5px;
-		  }
-
-		  #levelup-screen .thermal-meta {
-		    font-size: 8px;
-		    margin-top: 1px;
-		  }
-
-		  #levelup-screen .thermal-items {
-		    grid-template-columns: repeat(2, minmax(0, 1fr));
-		    gap: 4px 6px;
-		  }
-
-		  #levelup-screen .thermal-option {
-		    padding: 4px 6px;
-		    gap: 2px;
-		    border-radius: 4px;
-		  }
-
-		  #levelup-screen .thermal-option-main {
-		    gap: 5px;
-		  }
-
-		  #levelup-screen .thermal-icon {
-		    font-size: 13px;
-		  }
-
-		  #levelup-screen .thermal-title {
-		    font-size: 9px;
-		    line-height: 1.1;
-		  }
-
-		  #levelup-screen .thermal-desc {
-		    font-size: 9px;
-		    line-height: 1.1;
-		  }
-
-		  #levelup-screen .thermal-tag {
-		    font-size: 7.5px;
-		    padding: 1.5px 4px;
-		  }
-
-		  #levelup-screen .thermal-footer {
-		    margin-top: 4px;
-		    padding-top: 3px;
-		    font-size: 7.5px;
-		  }
-		}
-
-		#top-right-controls {
-		  position: fixed;
-		  top: max(10px, env(safe-area-inset-top));
-		  right: max(12px, env(safe-area-inset-right));
-		  z-index: 95;
-		  display: flex;
-		  align-items: center;
-		  gap: 8px;
-		  pointer-events: auto;
-		}
-
-		#hud-pause-btn,
-		#fullscreen-btn {
-		  width: 36px;
-		  height: 36px;
-		  background: rgba(15, 23, 42, 0.85);
-		  color: #f8fafc;
-		  border: 1.5px solid rgba(255, 255, 255, 0.25);
-		  border-radius: 8px;
-		  font-size: 16px;
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		  cursor: pointer;
-		  pointer-events: auto;
-		  touch-action: manipulation;
-		  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-		}
-
-		#hud-pause-btn {
-		  border-color: rgba(250, 204, 21, 0.55);
-		  color: #facc15;
-		  font-weight: 700;
-		}
-
-		#ios-fs-toast {
-		  position: fixed;
-		  bottom: max(18px, env(safe-area-inset-bottom));
-		  left: 50%;
-		  transform: translateX(-50%);
-		  z-index: 120;
-		  background: rgba(15, 23, 42, 0.96);
-		  color: #f8fafc;
-		  border: 1.5px solid #facc15;
-		  border-radius: 10px;
-		  padding: 10px 16px;
-		  font-size: 12.5px;
-		  line-height: 1.4;
-		  text-align: center;
-		  max-width: min(440px, 90vw);
-		  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
-		  cursor: pointer;
-		  pointer-events: auto;
-		}
-		</style>
 
 		<div id="top-right-controls">
 			<button id="hud-pause-btn" type="button" class="hidden" title="Pausar partida" aria-label="Pausar partida">⏸</button>
@@ -509,6 +206,6 @@
 
 		<div id="ios-fs-toast" class="hidden"></div>
 
-		<script type="module" src="js/game.js?v=5"></script>
+		<script type="module" src="js/game.js?v=8"></script>
 	</body>
 </html>

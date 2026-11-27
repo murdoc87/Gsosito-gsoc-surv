@@ -258,6 +258,61 @@ h1.game-title {
   background-position: center !important;
 }
 
+/* Menú principal (antes con estilos en línea en index.html) */
+#start-screen {
+  position: fixed;
+  inset: 0;
+  background-color: #0b0f17;
+  background-image: url('../img/cover.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: 40px;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+#start-screen .menu-panel {
+  position: relative;
+  z-index: 2;
+  background: rgba(11, 15, 23, 0.9);
+  border: 2px solid #334155;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  max-width: 420px;
+  width: 100%;
+  text-align: left;
+  pointer-events: auto;
+}
+
+#menu-chapas-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-family: 'Silkscreen',monospace;
+  font-size: 13px;
+  color: #facc15;
+}
+
+#start-screen .menu-buttons-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+/* Las clases .action-btn/.secondary-btn ya aportan pointer-events y touch-action */
+#start-screen .menu-buttons-col > button {
+  width: 100%;
+}
+
 /* Ajuste exclusivo para smartphones en apaisado (pantallas pequeñas) */
 @media (max-width: 950px) and (max-height: 500px) {
   #start-screen {
@@ -298,6 +353,36 @@ h1.game-title {
     padding: 6px 12px !important;
     font-size: 11.5px !important;
     border-radius: 6px !important;
+  }
+}
+
+/* Opciones en móvil apaisado: la zona de borrado va en una fila compacta para que el modal quepa sin scroll.
+   (En pantallas grandes se mantiene en columna.) */
+@media (max-width: 950px) and (max-height: 500px) {
+  #options-modal .reset-data-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+  }
+
+  #options-modal .reset-data-box > :first-child {
+    flex: 0 1 30%;
+    margin-bottom: 0 !important;
+  }
+
+  #options-modal .reset-data-box #reset-data-btn {
+    flex: 1 1 0;
+    width: auto !important;
+  }
+
+  #options-modal .reset-data-box #reset-data-feedback {
+    flex-basis: 100%;
+    margin-top: 0 !important;
+  }
+
+  #options-modal .reset-data-box #reset-data-feedback:empty {
+    display: none;
   }
 }
 
@@ -726,4 +811,489 @@ body.shop-modal-open #top-right-controls {
     font-size: 7px;
     padding: 1px 3px;
   }
+}
+
+/* ===== Ticket térmico, controles superiores y aviso iOS (antes en un <style> de index.html) ===== */
+#levelup-screen {
+  background: rgba(8, 10, 15, 0.55) !important;
+  backdrop-filter: blur(2px);
+}
+
+#levelup-screen .thermal-panel {
+  width: min(640px, 92vw);
+  max-height: 78dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin-top: 14px;
+  pointer-events: auto;
+  z-index: 60;
+}
+
+#levelup-screen .thermal-ticket {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background: rgba(248, 250, 252, 0.90);
+  color: #18181b;
+  font-family: 'Silkscreen', 'Courier New', monospace;
+  padding: 10px 14px 11px;
+  border-radius: 4px;
+  border-top: 3px dashed #94a3b8;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.38);
+  text-align: left;
+  pointer-events: auto;
+}
+
+#levelup-screen .thermal-header {
+  text-align: center;
+  border-bottom: 1.5px dashed #64748b;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+#levelup-screen .thermal-brand {
+  font-size: clamp(11px, 1.9vw, 13.5px);
+  font-weight: 700;
+  color: #090d16;
+  letter-spacing: 0.4px;
+}
+
+#levelup-screen .thermal-meta {
+  font-size: 9.5px;
+  color: #334155;
+  margin-top: 2px;
+}
+
+#levelup-screen .thermal-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+#levelup-screen .thermal-option {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 5px;
+  width: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1.5px dashed #64748b;
+  border-radius: 5px;
+  padding: 8px 10px;
+  color: #0f172a;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  transition: background-color 0.12s ease, border-color 0.12s ease, transform 0.08s ease;
+}
+
+#levelup-screen .thermal-option:hover,
+#levelup-screen .thermal-option:active {
+  background: rgba(254, 240, 138, 0.96);
+  border-style: solid;
+  border-color: #ca8a04;
+  transform: translateY(-1px);
+}
+
+#levelup-screen .thermal-option-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+
+#levelup-screen .thermal-option-main {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+#levelup-screen .thermal-icon {
+  font-size: 17px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+#levelup-screen .thermal-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #090d16;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+#levelup-screen .thermal-desc {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+#levelup-screen .thermal-tag {
+  flex-shrink: 0;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #f8fafc;
+  background: #1e293b;
+  padding: 2.5px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+#levelup-screen .thermal-footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1.5px dashed #64748b;
+  margin-top: 8px;
+  padding-top: 5px;
+  font-size: 9px;
+  color: #334155;
+}
+
+@media (max-width: 950px) and (max-height: 500px) {
+  #levelup-screen .thermal-panel {
+    width: min(580px, 90vw);
+    max-height: 78dvh;
+    margin-top: 0;
+  }
+
+  #levelup-screen .thermal-ticket {
+    padding: 5px 8px 6px;
+  }
+
+  #levelup-screen .thermal-header {
+    padding-bottom: 3px;
+    margin-bottom: 4px;
+  }
+
+  #levelup-screen .thermal-brand {
+    font-size: 9.5px;
+  }
+
+  #levelup-screen .thermal-meta {
+    font-size: 8px;
+    margin-top: 1px;
+  }
+
+  #levelup-screen .thermal-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 6px;
+  }
+
+  #levelup-screen .thermal-option {
+    padding: 4px 6px;
+    gap: 2px;
+    border-radius: 4px;
+  }
+
+  #levelup-screen .thermal-option-main {
+    gap: 5px;
+  }
+
+  #levelup-screen .thermal-icon {
+    font-size: 13px;
+  }
+
+  #levelup-screen .thermal-title {
+    font-size: 9px;
+    line-height: 1.1;
+  }
+
+  #levelup-screen .thermal-desc {
+    font-size: 9px;
+    line-height: 1.1;
+  }
+
+  #levelup-screen .thermal-tag {
+    font-size: 7.5px;
+    padding: 1.5px 4px;
+  }
+
+  #levelup-screen .thermal-footer {
+    margin-top: 4px;
+    padding-top: 3px;
+    font-size: 7.5px;
+  }
+}
+
+#top-right-controls {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+#hud-pause-btn,
+#fullscreen-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+#hud-pause-btn {
+  border-color: rgba(250, 204, 21, 0.55);
+  color: #facc15;
+  font-weight: 700;
+}
+
+#ios-fs-toast {
+  position: fixed;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 120;
+  background: rgba(15, 23, 42, 0.96);
+  color: #f8fafc;
+  border: 1.5px solid #facc15;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+  max-width: min(440px, 90vw);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* ===== Modales generados desde JS ===== */
+/* Modal de evolución de armamento (fusión) — antes estaba como CSS dentro de game.js */
+#fusion-evolution-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: radial-gradient(circle at center, rgba(161,98,7,0.78) 0%, rgba(6,9,15,0.94) 85%);
+  backdrop-filter: blur(4px);
+  animation: fusionFadeIn 0.25s ease-out;
+}
+
+@keyframes fusionFadeIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes fusionPulseIcon {
+  0%, 100% { transform: scale(1) rotate(-3deg); filter: drop-shadow(0 0 10px #facc15); }
+  50% { transform: scale(1.12) rotate(3deg); filter: drop-shadow(0 0 22px #fef08a); }
+}
+#fusion-evolution-card {
+  width: min(490px, 94vw);
+  background: linear-gradient(165deg, #271a04 0%, #0f172a 55%, #2b1d05 100%);
+  border: 2.5px solid #facc15;
+  box-shadow: 0 0 32px rgba(250,204,21,0.65), inset 0 0 18px rgba(254,240,138,0.2);
+  border-radius: 14px;
+  padding: 16px 18px;
+  color: #f8fafc;
+  font-family: "Chakra Petch", sans-serif;
+  text-align: center;
+  position: relative;
+  pointer-events: auto;
+}
+.fusion-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #ca8a04, #eab308);
+  color: #090d14;
+  font-family: "Silkscreen", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #fef08a;
+  margin-bottom: 8px;
+}
+.fusion-hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 6px 0 10px;
+}
+.fusion-ingredient {
+  background: rgba(15,23,42,0.85);
+  border: 1.5px solid #64748b;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+.fusion-result-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 14px;
+  background: radial-gradient(circle, #713f12 0%, #1c1917 100%);
+  border: 2.5px solid #fef08a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  animation: fusionPulseIcon 1.4s infinite ease-in-out;
+}
+.fusion-title {
+  font-family: "Silkscreen", monospace;
+  font-size: 16px;
+  color: #facc15;
+  text-shadow: 0 2px 8px rgba(250,204,21,0.8);
+  margin: 2px 0 6px;
+}
+.fusion-desc {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #e2e8f0;
+  background: rgba(9,13,20,0.65);
+  border: 1px solid rgba(250,204,21,0.4);
+  border-radius: 9px;
+  padding: 9px 12px;
+  margin-bottom: 12px;
+}
+.fusion-desc strong { color: #fde047; }
+#fusion-accept-btn {
+  width: 100%;
+  padding: 11px 16px;
+  font-family: "Silkscreen", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #090d14;
+  background: linear-gradient(90deg, #facc15, #fde047);
+  border: 2px solid #ffffff;
+  border-radius: 9px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(250,204,21,0.45);
+  pointer-events: auto;
+}
+#fusion-accept-btn:active { transform: scale(0.98); }
+
+/* Modal de victoria — antes con estilos en línea dentro de game.js */
+#victory-screen-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: radial-gradient(circle at center, rgba(202,138,4,0.42) 0%, rgba(6,9,15,0.94) 85%);
+  backdrop-filter: blur(4px);
+}
+
+.victory-card {
+  width: min(520px, 94vw);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: linear-gradient(165deg, #111827 0%, #090d16 65%, #1c1917 100%);
+  border: 2.5px solid #facc15;
+  box-shadow: 0 0 36px rgba(250,204,21,0.55), inset 0 0 20px rgba(250,204,21,0.14);
+  border-radius: 14px;
+  padding: 16px 18px;
+  color: #f8fafc;
+  font-family: 'Chakra Petch', sans-serif;
+  text-align: center;
+}
+.victory-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #ca8a04, #eab308);
+  color: #090d14;
+  font-family: 'Silkscreen', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid #fef08a;
+  margin-bottom: 8px;
+}
+.victory-title {
+  font-family: 'Silkscreen', monospace;
+  font-size: 20px;
+  color: #facc15;
+  text-shadow: 0 2px 10px rgba(250,204,21,0.65);
+  margin: 2px 0 8px;
+}
+.victory-image {
+  margin: 6px auto 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #facc15;
+  max-height: 165px;
+}
+.victory-image-img {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  display: block;
+}
+.victory-fallback {
+  margin: 6px auto 10px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(15,23,42,0.8);
+  border: 1.5px dashed rgba(250,204,21,0.55);
+  color: #fef08a;
+  font-size: 13px;
+}
+.victory-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  background: rgba(9,13,20,0.75);
+  border: 1px solid rgba(148,163,184,0.3);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  text-align: left;
+}
+.victory-total {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(148,163,184,0.2);
+  padding-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.victory-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.victory-btn {
+  flex: 1;
+  min-width: 150px;
 }

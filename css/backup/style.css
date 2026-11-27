@@ -1,0 +1,729 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: -webkit-fill-available;
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+  background-color: #0b0d12;
+  font-family: 'Chakra Petch', system-ui, -apple-system, sans-serif;
+  color: #f8fafc;
+}
+
+#game-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 1;
+  touch-action: none;
+}
+
+#game-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+}
+
+#rotate-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #181c26 0%, #090b0f 100%);
+  z-index: 160;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+}
+
+.phone-rotate-icon {
+  width: 48px;
+  height: 82px;
+  border: 3px solid #facc15;
+  border-radius: 10px;
+  background: #1e293b;
+  position: relative;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 24px rgba(250, 204, 21, 0.25);
+  animation: rotatePhoneAnim 2s infinite ease-in-out;
+}
+
+.phone-rotate-icon::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background: #94a3b8;
+}
+
+.phone-rotate-icon::after {
+  content: '';
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+@keyframes rotatePhoneAnim {
+  0%, 20% { transform: rotate(0deg); }
+  50%, 80% { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.rotate-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #facc15;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.rotate-desc {
+  font-size: 13px;
+  color: #cbd5e1;
+  line-height: 1.5;
+  max-width: 300px;
+}
+
+.modern-panel {
+  background: rgba(15, 19, 26, 0.92);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+  pointer-events: auto;
+  max-height: 86dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(8, 10, 15, 0.65);
+  z-index: 50;
+  padding: max(12px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+  text-align: center;
+  pointer-events: auto;
+}
+
+.hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.title-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #dc2626, #ea580c);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  margin-bottom: 6px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+h1.game-title {
+  font-size: clamp(22px, 3.6vw, 32px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #facc15;
+  text-shadow: 0 3px 12px rgba(250, 204, 21, 0.35);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: clamp(11px, 1.5vw, 13px);
+  color: #cbd5e1;
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.action-btn {
+  background: linear-gradient(180deg, #facc15 0%, #eab308 100%);
+  color: #0f172a;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 4px 0 #a16207, 0 8px 20px rgba(234, 179, 8, 0.35);
+  padding: 11px 22px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: clamp(13px, 1.8vw, 15px);
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  pointer-events: auto;
+  touch-action: manipulation;
+  transition: transform 0.08s ease;
+}
+
+.action-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #a16207;
+}
+
+.secondary-btn {
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9px;
+  box-shadow: 0 4px 0 #0f172a;
+  padding: 11px 20px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: clamp(13px, 1.8vw, 15px);
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  pointer-events: auto;
+  touch-action: manipulation;
+  transition: transform 0.08s ease;
+}
+
+.secondary-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #0f172a;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 12px auto 16px;
+}
+
+.stat-item {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 9px;
+  padding: 8px 6px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.stat-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: #facc15;
+}
+
+#gameover-screen {
+  background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../img/gameover_bg.png') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Ajuste exclusivo para smartphones en apaisado (pantallas pequeñas) */
+@media (max-width: 950px) and (max-height: 500px) {
+  #start-screen {
+    padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)) !important;
+  }
+
+  #start-screen .menu-panel {
+    padding: 10px 14px !important;
+    max-width: 310px !important;
+    max-height: 92dvh !important;
+    overflow-y: auto !important;
+  }
+
+  #start-screen .title-badge {
+    font-size: 9px !important;
+    margin-bottom: 3px !important;
+  }
+
+  #start-screen .game-title {
+    font-size: 19px !important;
+    margin-bottom: 4px !important;
+  }
+
+  #start-screen .subtitle {
+    display: none !important;
+  }
+
+  #menu-chapas-box {
+    margin-bottom: 6px !important;
+    font-size: 11px !important;
+  }
+
+  #start-screen .menu-buttons-col {
+    gap: 5px !important;
+  }
+
+  #start-screen .menu-buttons-col button {
+    padding: 6px 12px !important;
+    font-size: 11.5px !important;
+    border-radius: 6px !important;
+  }
+}
+
+/* Tienda de Mejoras estilo Máquina Expendedora + Inspector */
+.upgrades-vending-panel {
+  width: min(860px, 95vw);
+  max-height: 90dvh;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(9, 13, 22, 0.98) 100%);
+  border: 2px solid #475569;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  text-align: left;
+}
+
+.vending-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid rgba(148, 163, 184, 0.25);
+}
+
+.vending-heading h2 {
+  font-size: clamp(16px, 2.2vw, 20px);
+  color: #facc15;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.vending-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vending-balance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(11, 15, 23, 0.95);
+  border: 2px solid #facc15;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: 'Silkscreen', monospace;
+  font-size: 13px;
+  color: #facc15;
+  box-shadow: 0 3px 0 #713f12;
+}
+
+.vending-close-btn {
+  padding: 7px 12px !important;
+  font-size: 13px !important;
+  line-height: 1;
+}
+
+.vending-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.05fr) minmax(250px, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.vending-inspector {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(165deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid #64748b;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 6px 0 #020617, inset 0 0 24px rgba(0, 0, 0, 0.45);
+}
+
+.vending-inspector-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vending-inspector-icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  background: radial-gradient(circle at 35% 30%, #334155, #090d16);
+  border: 2px solid #facc15;
+  border-radius: 10px;
+  box-shadow: 0 4px 0 #020617;
+}
+
+.vending-inspector-title {
+  font-family: 'Silkscreen', monospace;
+  font-size: 14px;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.vending-inspector-level {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #facc15;
+  letter-spacing: 0.4px;
+}
+
+.vending-inspector-desc {
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.35;
+}
+
+.vending-inspector-stat {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(2, 6, 23, 0.65);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  border-radius: 6px;
+  padding: 6px 9px;
+}
+
+.vending-cost-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(9, 13, 22, 0.8);
+  color: #fde047;
+  border: 1px dashed rgba(250, 204, 21, 0.55);
+  border-left: 4px solid #facc15;
+  border-radius: 7px;
+  padding: 7px 12px;
+  margin: 10px 0 6px 0;
+  font-family: 'Silkscreen', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  cursor: default;
+  user-select: none;
+}
+
+.vending-buy-btn {
+  width: 100%;
+  padding: 11px 16px !important;
+}
+
+.vending-buy-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.45);
+}
+
+.vending-machine {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  justify-self: center;
+  aspect-ratio: 375 / 500;
+  background-color: #7f1d1d;
+  background-image: var(--vending-machine-art, url('../img/vending_machine.png'));
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  padding-top: 19%;
+  padding-bottom: 18%;
+  padding-left: 5%;
+  padding-right: 21%;
+  box-sizing: border-box;
+}
+
+.vending-machine-header {
+  display: none !important;
+}
+
+.vending-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 4px;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+
+.vending-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  padding: 5px 3px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.96) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border: 2px solid #475569;
+  border-radius: 8px;
+  color: #f8fafc;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  transition: background-color 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease, transform 0.08s ease;
+  box-sizing: border-box;
+}
+
+.vending-slot:hover {
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.vending-slot.is-selected {
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.98) 0%, rgba(23, 37, 84, 0.98) 100%);
+  border: 2px solid #facc15;
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.55), inset 0 0 8px rgba(250, 204, 21, 0.25);
+}
+
+.vending-slot-icon {
+  font-size: 19px;
+  line-height: 1.1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.85));
+}
+
+.vending-slot-name {
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+  color: #ffffff;
+  text-shadow: 0 1px 3px #000000;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vending-slot-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(9, 13, 20, 0.95);
+  border: 1px solid #facc15;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: 'Silkscreen', monospace;
+  font-size: 9px;
+  color: #facc15;
+}
+
+.vending-slot-price.is-max {
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+/* Fuegos artificiales y ticket raro de 4 mejoras */
+#levelup-screen .thermal-ticket.is-fireworks {
+  border-top-color: #eab308;
+  box-shadow: 0 0 26px rgba(250, 204, 21, 0.55), 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+#levelup-screen .thermal-ticket.is-fireworks .thermal-items {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+#levelup-screen .thermal-ticket.is-fireworks .thermal-option {
+  padding: 6px 8px;
+}
+
+@media (max-width: 680px) {
+  .vending-layout {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Cuando el modal de tienda está abierto, el botón flotante de pantalla completa/pausa no debe bloquear el cierre (✕) */
+body.shop-modal-open #top-right-controls {
+  z-index: 40;
+}
+
+@media (max-width: 950px) and (max-height: 500px) {
+  #upgrades-modal.overlay {
+    padding: max(6px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  }
+
+  .upgrades-vending-panel {
+    padding: 7px 10px;
+    max-height: calc(100dvh - 12px);
+    width: min(96vw, 760px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vending-topbar {
+    padding-bottom: 5px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+
+  .vending-heading .title-badge {
+    display: none;
+  }
+
+  .vending-heading h2 {
+    font-size: 13px;
+  }
+
+  .vending-balance-badge {
+    padding: 3px 7px;
+    font-size: 10.5px;
+  }
+
+  .vending-close-btn {
+    padding: 4px 9px !important;
+    font-size: 11px !important;
+  }
+
+  .vending-layout {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 8px;
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: center;
+  }
+
+  .vending-inspector {
+    padding: 8px 10px;
+    gap: 5px;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+  }
+
+  .vending-inspector-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+  }
+
+  .vending-inspector-title {
+    font-size: 11px;
+  }
+
+  .vending-inspector-level {
+    margin-top: 2px;
+    font-size: 10px;
+  }
+
+  .vending-inspector-desc {
+    font-size: 10.5px;
+    line-height: 1.2;
+  }
+
+  .vending-inspector-stat {
+    font-size: 10px;
+    line-height: 1.2;
+    padding: 4px 6px;
+  }
+
+  .vending-cost-banner {
+    padding: 4px 7px;
+    margin: 4px 0 2px 0;
+    font-size: 10px;
+  }
+
+  .vending-buy-btn {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+  }
+
+  /* Mantiene la proporción exacta 375/500 de la máquina expendedora sin distorsión */
+  .vending-machine {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 64px);
+    aspect-ratio: 375 / 500;
+    padding-top: 19%;
+    padding-bottom: 18%;
+    padding-left: 5%;
+    padding-right: 21%;
+    gap: 0;
+  }
+
+  .vending-grid {
+    gap: 3px;
+    padding: 2px;
+  }
+
+  .vending-slot {
+    aspect-ratio: 1 / 1;
+    min-height: 0;
+    padding: 2px;
+    gap: 1px;
+    border-radius: 6px;
+  }
+
+  .vending-slot-icon {
+    font-size: 13px;
+  }
+
+  .vending-slot-name {
+    font-size: 7px;
+  }
+
+  .vending-slot-price {
+    font-size: 7px;
+    padding: 1px 3px;
+  }
+}
