@@ -1,11 +1,11 @@
 // @ts-nocheck
 // Ciclo de vida de la partida: empezar, pausar, terminar, volver al menú.
 // Métodos de SurvivorScene: se añaden a su prototipo en scenes/SurvivorScene.js.
-import { AudioSys } from '../../audio.js?v=8';
-import { startScreen, pauseScreen, optionsModal, confirmResetModal, gameoverScreen, removeDomElement } from '../../dom.js?v=8';
-import { loadMeta, saveMeta, refreshMenuChatarraUI } from '../../meta.js?v=8';
-import { checkOrientation } from '../../orientation.js?v=8';
-import { formatTime } from '../../utils.js?v=8';
+import { AudioSys } from '../../audio.js?v=10';
+import { startScreen, pauseScreen, optionsModal, confirmResetModal, gameoverScreen, removeDomElement } from '../../dom.js?v=10';
+import { loadMeta, saveMeta, refreshMenuChatarraUI } from '../../meta.js?v=10';
+import { checkOrientation } from '../../orientation.js?v=10';
+import { formatTime } from '../../utils.js?v=10';
 
 export const RunMethods = {
   handleOrientationPause(isPortrait) {

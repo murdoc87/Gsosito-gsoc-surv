@@ -1,6 +1,6 @@
 // @ts-nocheck
 // Detección de orientación vertical/horizontal y pausa automática.
-import { rotateScreen } from './dom.js?v=8';
+import { rotateScreen } from './dom.js?v=10';
 
 let activeSceneRef = null;
 

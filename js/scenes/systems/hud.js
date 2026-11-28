@@ -1,9 +1,9 @@
 // @ts-nocheck
 // HUD dibujado en Phaser, textos flotantes, banner de horda y fuegos artificiales.
 // Métodos de SurvivorScene: se añaden a su prototipo en scenes/SurvivorScene.js.
-import Phaser from '../../phaser.js?v=8';
-import { AudioSys } from '../../audio.js?v=8';
-import { HUD_BASE_DEPTH, getWorldEntityDepth, formatTime, getDpr } from '../../utils.js?v=8';
+import Phaser from '../../phaser.js?v=10';
+import { AudioSys } from '../../audio.js?v=10';
+import { HUD_BASE_DEPTH, getWorldEntityDepth, formatTime, getDpr } from '../../utils.js?v=10';
 
 // Textos flotantes: duración de la animación, tope de números de daño a la vez y tamaño de la caché.
 const FLOATING_LABEL_DURATION = 0.65;
@@ -162,8 +162,8 @@ export const HudMethods = {
     if (this.joystick.active) {
       const sx = this.joystick.startX;
       const sy = this.joystick.startY;
-      const cx = sx + this.joystick.dx * this.joystick.maxR;
-      const cy = sy + this.joystick.dy * this.joystick.maxR;
+      const cx = sx + this.joystick.knobX;
+      const cy = sy + this.joystick.knobY;
       this.joyGraphics.lineStyle(2, 0xfacc15, 0.5);
       this.joyGraphics.strokeCircle(sx, sy, this.joystick.maxR);
       this.joyGraphics.fillStyle(0xfacc15, 0.8);

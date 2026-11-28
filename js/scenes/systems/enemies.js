@@ -1,10 +1,10 @@
 // @ts-nocheck
 // Aparición de enemigos, proyectiles enemigos y hordas.
 // Métodos de SurvivorScene: se añaden a su prototipo en scenes/SurvivorScene.js.
-import { AudioSys } from '../../audio.js?v=8';
-import { pickEnemySpawnConfig } from '../../data/enemies.js?v=8';
-import Phaser from '../../phaser.js?v=8';
-import { getEnemyDepth, applyEnemyFacing, setDepthIfChanged } from '../../utils.js?v=8';
+import { AudioSys } from '../../audio.js?v=10';
+import { pickEnemySpawnConfig } from '../../data/enemies.js?v=10';
+import Phaser from '../../phaser.js?v=10';
+import { getEnemyDepth, applyEnemyFacing, setDepthIfChanged } from '../../utils.js?v=10';
 
 export const EnemyMethods = {
   computeCutOffSpawnPosition(slotIndex = 0, totalSlots = 1) {

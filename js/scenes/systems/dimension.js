@@ -1,9 +1,9 @@
 // @ts-nocheck
 // Portal dimensional y Sala CRA blanca.
 // Métodos de SurvivorScene: se añaden a su prototipo en scenes/SurvivorScene.js.
-import Phaser from '../../phaser.js?v=8';
-import { AudioSys } from '../../audio.js?v=8';
-import { getWorldEntityDepth, formatTime, getDpr } from '../../utils.js?v=8';
+import Phaser from '../../phaser.js?v=10';
+import { AudioSys } from '../../audio.js?v=10';
+import { getWorldEntityDepth, formatTime, getDpr } from '../../utils.js?v=10';
 
 export const DimensionMethods = {
   clearPortalVisuals() {

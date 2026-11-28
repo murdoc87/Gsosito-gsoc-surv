@@ -1,10 +1,10 @@
 // @ts-nocheck
 // Menús y modales HTML: opciones, tienda, pantalla completa, avisos.
 // Métodos de SurvivorScene: se añaden a su prototipo en scenes/SurvivorScene.js.
-import { AudioSys } from '../../audio.js?v=8';
-import { SHOP_UPGRADES } from '../../data/shop.js?v=8';
-import { levelupScreen, pauseScreen, optionsModal, confirmResetModal, gameoverScreen, upgradesModal, charactersModal, shopUpgradesList, hudPauseBtn } from '../../dom.js?v=8';
-import { loadMeta, saveMeta, resetMeta, getUpgradeCost, refreshMenuChatarraUI } from '../../meta.js?v=8';
+import { AudioSys } from '../../audio.js?v=10';
+import { SHOP_UPGRADES } from '../../data/shop.js?v=10';
+import { levelupScreen, pauseScreen, optionsModal, confirmResetModal, gameoverScreen, upgradesModal, charactersModal, shopUpgradesList, hudPauseBtn } from '../../dom.js?v=10';
+import { loadMeta, saveMeta, resetMeta, getUpgradeCost, refreshMenuChatarraUI } from '../../meta.js?v=10';
 
 export const UiMethods = {
   updatePauseButtonVisibility() {

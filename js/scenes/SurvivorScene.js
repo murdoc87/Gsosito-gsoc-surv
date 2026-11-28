@@ -1,22 +1,24 @@
 // @ts-nocheck
 // Escena principal del juego: creación del mundo y bucle update().
-import Phaser from '../phaser.js?v=8';
-import { SHOP_UPGRADES } from '../data/shop.js?v=8';
-import { loadMeta } from '../meta.js?v=8';
-import { isPortraitViewport, checkOrientation, setActiveScene } from '../orientation.js?v=8';
-import { buildAllTextures } from '../textures.js?v=8';
-import { HUD_BASE_DEPTH, getWorldEntityDepth, setDepthIfChanged } from '../utils.js?v=8';
-import { RunMethods } from './systems/run.js?v=8';
-import { UiMethods } from './systems/ui.js?v=8';
-import { HudMethods } from './systems/hud.js?v=8';
-import { InputMethods } from './systems/input.js?v=8';
-import { LevelUpMethods } from './systems/levelup.js?v=8';
-import { WeaponMethods } from './systems/weapons.js?v=8';
-import { CombatMethods } from './systems/combat.js?v=8';
-import { EnemyMethods } from './systems/enemies.js?v=8';
-import { BossMethods } from './systems/bosses.js?v=8';
-import { DimensionMethods } from './systems/dimension.js?v=8';
-import { CrowdMethods } from './systems/crowd.js?v=8';
+import Phaser from '../phaser.js?v=10';
+import { SHOP_UPGRADES } from '../data/shop.js?v=10';
+import { loadMeta } from '../meta.js?v=10';
+import { isPortraitViewport, checkOrientation, setActiveScene } from '../orientation.js?v=10';
+import { buildAllTextures } from '../textures.js?v=10';
+import { installFrameLimiter } from '../frameLimiter.js?v=10';
+import { HUD_BASE_DEPTH, getWorldEntityDepth, setDepthIfChanged } from '../utils.js?v=10';
+import { RunMethods } from './systems/run.js?v=10';
+import { UiMethods } from './systems/ui.js?v=10';
+import { HudMethods } from './systems/hud.js?v=10';
+import { InputMethods } from './systems/input.js?v=10';
+import { LevelUpMethods } from './systems/levelup.js?v=10';
+import { WeaponMethods } from './systems/weapons.js?v=10';
+import { CombatMethods } from './systems/combat.js?v=10';
+import { EnemyMethods } from './systems/enemies.js?v=10';
+import { BossMethods } from './systems/bosses.js?v=10';
+import { DimensionMethods } from './systems/dimension.js?v=10';
+import { CrowdMethods } from './systems/crowd.js?v=10';
+import { DebugMethods } from './systems/debug.js?v=10';
 
 export class SurvivorScene extends Phaser.Scene {
   constructor() {
@@ -80,6 +82,10 @@ export class SurvivorScene extends Phaser.Scene {
     buildAllTextures(this);
     this.createAnimations();
     this.initFloatingLabels();
+    this.setupDebugOverlay();
+    // Máximo 60 actualizaciones por segundo (en pantallas de 90/120/144 Hz se ahorra trabajo),
+    // pasando siempre al juego el tiempo real transcurrido.
+    installFrameLimiter(this.sys.game, 60);
 
     this.gameState = 'MENU';
     this.resetRunState();
@@ -480,25 +486,25 @@ export class SurvivorScene extends Phaser.Scene {
 
     const isMoving = Math.abs(mx) > 0.05 || Math.abs(my) > 0.05;
     if (isMoving) {
-      if (Math.abs(mx) > Math.abs(my)) {
+      // Elección de dirección con un pequeño margen: en diagonales (joystick a ~45°) se mantiene
+      // la dirección actual en vez de alternar entre "de lado" y "de frente" en cada frame.
+      const ax = Math.abs(mx);
+      const ay = Math.abs(my);
+      const AXIS_MARGIN = 1.2;
+      const goSide = this.lastDirection === 'side' ? !(ay > ax * AXIS_MARGIN) : ax > ay * AXIS_MARGIN;
+      if (goSide) {
         this.lastDirection = 'side';
         this.isLookingLeft = mx < 0;
         this.player.setFlipX(this.isLookingLeft);
-        if (this.player.anims.currentAnim?.key !== 'gsosito_side') {
-          this.player.play('gsosito_side', true);
-        }
+        this.playWalkAnimation('gsosito_side');
       } else if (my < 0) {
         this.lastDirection = 'up';
         this.player.setFlipX(false);
-        if (this.player.anims.currentAnim?.key !== 'gsosito_up') {
-          this.player.play('gsosito_up', true);
-        }
+        this.playWalkAnimation('gsosito_up');
       } else {
         this.lastDirection = 'down';
         this.player.setFlipX(false);
-        if (this.player.anims.currentAnim?.key !== 'gsosito_down') {
-          this.player.play('gsosito_down', true);
-        }
+        this.playWalkAnimation('gsosito_down');
       }
     } else {
       if (this.player.anims.isPlaying) this.player.anims.stop();
@@ -510,6 +516,17 @@ export class SurvivorScene extends Phaser.Scene {
       this.player.setFlipX(this.lastDirection === 'side' ? this.isLookingLeft : false);
     }
     return true;
+  }
+
+  // Lanza la animación de caminar si no se está reproduciendo ya.
+  // (Antes se comprobaba solo currentAnim.key: tras pararse, Phaser sigue recordando la última
+  // animación aunque esté detenida, así que al volver a andar en el mismo eje no se relanzaba
+  // y el personaje se deslizaba con el sprite de reposo congelado.)
+  playWalkAnimation(key) {
+    const anims = this.player.anims;
+    if (!anims.isPlaying || anims.currentAnim?.key !== key) {
+      this.player.play(key);
+    }
   }
 }
 
@@ -527,5 +544,6 @@ Object.assign(
   EnemyMethods,
   BossMethods,
   DimensionMethods,
-  CrowdMethods
+  CrowdMethods,
+  DebugMethods
 );

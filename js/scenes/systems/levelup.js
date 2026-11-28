@@ -1,12 +1,12 @@
 // @ts-nocheck
 // XP, subidas de nivel, ticket térmico y fusión de armas.
 // Métodos de SurvivorScene: se añaden a su prototipo en scenes/SurvivorScene.js.
-import Phaser from '../../phaser.js?v=8';
-import { AudioSys } from '../../audio.js?v=8';
-import { canFuseWeapons, getUpgradeTagLabel, UPGRADES } from '../../data/upgrades.js?v=8';
-import { levelupScreen, cardsContainer, removeDomElement } from '../../dom.js?v=8';
-import { checkOrientation } from '../../orientation.js?v=8';
-import { HUD_BASE_DEPTH, formatTime } from '../../utils.js?v=8';
+import Phaser from '../../phaser.js?v=10';
+import { AudioSys } from '../../audio.js?v=10';
+import { canFuseWeapons, getUpgradeTagLabel, UPGRADES } from '../../data/upgrades.js?v=10';
+import { levelupScreen, cardsContainer, removeDomElement } from '../../dom.js?v=10';
+import { checkOrientation } from '../../orientation.js?v=10';
+import { HUD_BASE_DEPTH, formatTime } from '../../utils.js?v=10';
 
 export const LevelUpMethods = {
   // Suma XP y encola TODAS las subidas de nivel que alcance (antes solo se procesaba una).
